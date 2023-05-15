@@ -100,8 +100,6 @@ const TableDocument = () => {
             </View>
           </View>
         );
-        break;
-
       case x > 1:
         return (
           <View style={tableRowStyle}>
@@ -109,13 +107,13 @@ const TableDocument = () => {
               <Text style={tableCellStyle}>Element</Text>
             </View>
 
-            <View style={tableColStyle}>
-              <Text style={tableCellStyle}>Element</Text>
-            </View>
-
-            <View style={tableColStyle}>
-              <Text style={tableCellStyle}>Element</Text>
-            </View>
+            {[...Array(x - 1)].map((table, index) => {
+              return (
+                <View style={tableColStyle} key={index}>
+                  <Text style={tableCellStyle}>Element</Text>
+                </View>
+              );
+            })}
           </View>
         );
 
@@ -129,7 +127,8 @@ const TableDocument = () => {
       <Page style={pageStyle} size="A4" orientation="portrait">
         <View style={tableStyle}>
           {createTableHeaderIT()}
-          {createTableRowIT()}
+          {/* {createTableRowIT()} */}
+          {createTableRowITDy(3)}
         </View>
       </Page>
     </Document>
