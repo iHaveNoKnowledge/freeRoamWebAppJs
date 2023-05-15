@@ -90,6 +90,40 @@ const TableDocument = () => {
     );
   };
 
+  const createTableRowITDy = (x) => {
+    switch (true) {
+      case x === 1:
+        return (
+          <View style={tableRowStyle}>
+            <View style={firstTableColStyle}>
+              <Text style={tableCellStyle}>Element</Text>
+            </View>
+          </View>
+        );
+        break;
+
+      case x > 1:
+        return (
+          <View style={tableRowStyle}>
+            <View style={firstTableColStyle}>
+              <Text style={tableCellStyle}>Element</Text>
+            </View>
+
+            <View style={tableColStyle}>
+              <Text style={tableCellStyle}>Element</Text>
+            </View>
+
+            <View style={tableColStyle}>
+              <Text style={tableCellStyle}>Element</Text>
+            </View>
+          </View>
+        );
+
+      default:
+        break;
+    }
+  };
+
   return (
     <Document>
       <Page style={pageStyle} size="A4" orientation="portrait">
@@ -129,6 +163,7 @@ const firstTableColHeaderStyle = {
   borderWidth: 1,
   backgroundColor: "#bdbdbd",
   display: "flex",
+  justifyContent: "center",
 };
 
 const tableColHeaderStyle = {
@@ -145,16 +180,13 @@ const tableColHeaderStyle = {
 
 const firstTableColStyle = {
   width: "28vh",
-  flexGrow: 1,
   borderStyle: "solid",
   borderColor: "#000",
   borderWidth: 1,
   borderTopWidth: 0,
-  display: "flex",
 };
 
 const tableColStyle = {
-  flexGrow: 1,
   width: "28vh",
   borderStyle: "solid",
   borderColor: "#000",
@@ -164,15 +196,17 @@ const tableColStyle = {
 };
 
 const tableCellHeaderStyle = {
-  // textAlign: "center",
   margin: 4,
   fontSize: 12,
   fontWeight: "bold",
+  marginLeft: "auto",
+  marginRight: "auto",
 };
 
 const tableCellStyle = {
-  // textAlign: "center",
   margin: 5,
+  marginLeft: "auto",
+  marginRight: "auto",
   fontSize: 10,
 };
 
