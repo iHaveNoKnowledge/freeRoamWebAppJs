@@ -1,7 +1,39 @@
 import React from "react";
-import { Page, Text, View, Document } from "@react-pdf/renderer";
+import { Page, Text, View, Document, Image } from "@react-pdf/renderer";
+import logoHeader from "../assets/itLogo-1.png";
 
 const TableDocument = () => {
+  const [reportedData, setReportedData] = React.useState({
+    img: "",
+    branch: "",
+    contact: "",
+  });
+
+  const headerSubTable = () => {
+    return (
+      <View style={{ display: "flex", flexDirection: "row" }} fixed>
+        <View style={{ ...inlineStyle, ...inlineOrder }}>
+          <Text>{WrapText("No")}</Text>
+        </View>
+        <View style={{ ...inlineStyle, ...inlineCode }}>
+          <Text>{WrapText(`Code`)}</Text>
+        </View>
+        <View style={{ ...inlineStyle, ...inlineDescr }}>
+          <Text>{WrapText("Description")}</Text>
+        </View>
+        <View style={{ ...inlineStyle, ...inlineQTY }}>
+          <Text>{WrapText("QTY")}</Text>
+        </View>
+        <View style={{ ...inlineStyle, ...inlinePrice }}>
+          <Text>{WrapText("Price")}</Text>
+        </View>
+        <View style={{ ...inlineStyle, ...inlineTotal }}>
+          <Text>{WrapText("Total")}</Text>
+        </View>
+      </View>
+    );
+  };
+
   const createTableHeader = () => {
     return (
       <View style={tableRowStyle} fixed>
@@ -58,11 +90,13 @@ const TableDocument = () => {
     return (
       <View style={tableRowStyle} fixed>
         <View style={firstTableColHeaderStyle}>
-          <Text style={tableCellHeaderStyle}>Column</Text>
+          <Image src={logoHeader} style={image} />
         </View>
 
         <View style={tableColHeaderStyle}>
-          <Text style={tableCellHeaderStyle}>Column</Text>
+          <Text style={tableCellHeaderStyle}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, eligendi!
+          </Text>
         </View>
 
         <View style={tableColHeaderStyle}>
@@ -72,27 +106,51 @@ const TableDocument = () => {
     );
   };
 
-  const createTableRowIT = () => {
+  const createTableRowIT = (x) => {
     return (
       <View style={tableRowStyle}>
-        <View style={firstTableColStyle}>
-          <Text style={tableCellStyle}>Element</Text>
+        <View style={firstTableColStyle}>{createTableRowITDYN(x)}</View>
+      </View>
+    );
+  };
+
+  const createTableHeaderITDYN = () => {
+    return (
+      <View style={tableRowStyle} fixed>
+        <View style={firstTableColHeaderStyle}>
+          <Image src={logoHeader} style={image} />
         </View>
 
-        <View style={tableColStyle}>
-          <Text style={tableCellStyle}>Element</Text>
+        <View style={tableColHeaderStyle}>
+          <Text style={tableCellHeaderStyle}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, eligendi!
+          </Text>
         </View>
 
-        <View style={tableColStyle}>
-          <Text style={tableCellStyle}>Element</Text>
+        <View style={tableColHeaderStyle}>
+          <Text style={tableCellHeaderStyle}>Column</Text>
         </View>
       </View>
     );
   };
 
-  const createTableRowITDy = (x) => {
+  const WrapText = (text) => (
+    <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+      {text?.match(/\w+|\W+/g)?.map((seg, i) => {
+        console.log(seg);
+        if (Number(seg) / Number(seg) === 1) {
+          return <Text key={i}>{Number(seg).toLocaleString()}</Text>;
+        } else {
+          return <Text key={i}>{seg.toLocaleString()}</Text>;
+        }
+      })}
+    </View>
+  );
+
+  const createTableRowITDYN = (x) => {
+    const formattedNumber = (x - (x - 1)).toString().padStart(4, "0");
     switch (true) {
-      case x === 1:
+      case x >= 1:
         return (
           <View style={tableRowStyle}>
             <View style={firstTableColStyle}>
@@ -100,6 +158,8 @@ const TableDocument = () => {
             </View>
           </View>
         );
+        break;
+
       case x > 1:
         return (
           <View style={tableRowStyle}>
@@ -107,13 +167,13 @@ const TableDocument = () => {
               <Text style={tableCellStyle}>Element</Text>
             </View>
 
-            {[...Array(x - 1)].map((table, index) => {
-              return (
-                <View style={tableColStyle} key={index}>
-                  <Text style={tableCellStyle}>Element</Text>
-                </View>
-              );
-            })}
+            <View style={tableColStyle}>
+              <Text style={tableCellStyle}>Element</Text>
+            </View>
+
+            <View style={tableColStyle}>
+              <Text style={tableCellStyle}>Element</Text>
+            </View>
           </View>
         );
 
@@ -127,14 +187,14 @@ const TableDocument = () => {
       <Page style={pageStyle} size="A4" orientation="portrait">
         <View style={tableStyle}>
           {createTableHeaderIT()}
-          {/* {createTableRowIT()} */}
-          {createTableRowITDy(3)}
+          {createTableRowIT()}
         </View>
       </Page>
     </Document>
   );
 };
 
+//style------------------------------------------------------------------------------------
 const pageStyle = {
   display: "flex",
   flexDirection: "row",
@@ -155,18 +215,20 @@ const tableRowStyle = {
 };
 
 const firstTableColHeaderStyle = {
-  width: "28vh",
+  // width: "28vh",
+  width: "100%",
   borderStyle: "solid",
   borderColor: "#000",
   borderBottomColor: "#000",
   borderWidth: 1,
-  backgroundColor: "#bdbdbd",
+  backgroundColor: "#0033E6",
   display: "flex",
   justifyContent: "center",
 };
 
 const tableColHeaderStyle = {
-  width: "28vh",
+  // width: "28vh",
+  width: "100%",
   borderStyle: "solid",
   borderColor: "#000",
   borderBottomColor: "#000",
@@ -178,35 +240,58 @@ const tableColHeaderStyle = {
 };
 
 const firstTableColStyle = {
-  width: "28vh",
+  // width: "28vh",
+  width: "100%",
   borderStyle: "solid",
   borderColor: "#000",
   borderWidth: 1,
   borderTopWidth: 0,
+  whiteSpace: "normal",
 };
 
 const tableColStyle = {
-  width: "28vh",
+  // width: "28vh",
+  width: "100%",
   borderStyle: "solid",
   borderColor: "#000",
   borderWidth: 1,
   borderLeftWidth: 0,
   borderTopWidth: 0,
+  whiteSpace: "pre",
 };
 
 const tableCellHeaderStyle = {
   margin: 4,
   fontSize: 12,
   fontWeight: "bold",
-  marginLeft: "auto",
-  marginRight: "auto",
+  width: 160,
 };
+
+const inlineStyle = { padding: "10px", fontSize: 10 };
+const inlineOrder = { width: "6.5%", textAlign: "right" };
+const inlineCode = { width: "14%" };
+const inlineDescr = { width: "37.5%" };
+const inlineQTY = { width: "14%" };
+const inlinePrice = { width: "14%" };
+const inlineTotal = { width: "14%" };
 
 const tableCellStyle = {
   margin: 5,
-  marginLeft: "auto",
-  marginRight: "auto",
   fontSize: 10,
+  width: 160,
+  flexGrow: 0,
+  textAlign: "left",
+};
+
+const image = {
+  marginVertical: 1,
+  marginHorizontal: 5,
+  backgroundColor: "#0033E6",
+};
+
+const subTableDisplay = {
+  margin: 5,
+  display: "flex",
 };
 
 export default TableDocument;
