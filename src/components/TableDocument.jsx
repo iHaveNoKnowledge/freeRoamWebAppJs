@@ -2,18 +2,12 @@ import React from "react";
 import { Page, Text, View, Document } from "@react-pdf/renderer";
 
 const TableDocument = () => {
-<<<<<<< HEAD
-=======
   const [reportedData, setReportedData] = React.useState({
     img: "",
     branch: "",
     contact: "",
   });
 
-<<<<<<< HEAD
->>>>>>> parent of 3d07800 (update)
-=======
->>>>>>> parent of 3d07800 (update)
   const createTableHeader = () => {
     return (
       <View style={tableRowStyle} fixed>
@@ -109,7 +103,6 @@ const TableDocument = () => {
       <View style={tableRowStyle} fixed>
         <View style={firstTableColHeaderStyle}>
           <Image src={logoHeader} style={image} />
->>>>>>> parent of 3d07800 (update)
         </View>
 
         <View style={tableColStyle}>
@@ -236,7 +229,6 @@ const tableCellHeaderStyle = {
   marginRight: "auto",
 };
 
->>>>>>> parent of 3d07800 (update)
 const tableCellStyle = {
   margin: 5,
   marginLeft: "auto",
