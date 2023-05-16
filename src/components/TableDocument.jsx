@@ -9,6 +9,31 @@ const TableDocument = () => {
     contact: "",
   });
 
+  const headerSubTable = () => {
+    return (
+      <View style={{ display: "flex", flexDirection: "row" }} fixed>
+        <View style={{ ...inlineStyle, ...inlineOrder }}>
+          <Text>{WrapText("No")}</Text>
+        </View>
+        <View style={{ ...inlineStyle, ...inlineCode }}>
+          <Text>{WrapText(`Code`)}</Text>
+        </View>
+        <View style={{ ...inlineStyle, ...inlineDescr }}>
+          <Text>{WrapText("Description")}</Text>
+        </View>
+        <View style={{ ...inlineStyle, ...inlineQTY }}>
+          <Text>{WrapText("QTY")}</Text>
+        </View>
+        <View style={{ ...inlineStyle, ...inlinePrice }}>
+          <Text>{WrapText("Price")}</Text>
+        </View>
+        <View style={{ ...inlineStyle, ...inlineTotal }}>
+          <Text>{WrapText("Total")}</Text>
+        </View>
+      </View>
+    );
+  };
+
   const createTableHeader = () => {
     return (
       <View style={tableRowStyle} fixed>
@@ -84,10 +109,7 @@ const TableDocument = () => {
   const createTableRowIT = (x) => {
     return (
       <View style={tableRowStyle}>
-        <View style={firstTableColStyle}>
-          {/* <Text style={tableCellStyle}>Element</Text> */}
-          {createTableRowITDYN(x)}
-        </View>
+        <View style={firstTableColStyle}>{createTableRowITDYN(x)}</View>
       </View>
     );
   };
@@ -114,50 +136,44 @@ const TableDocument = () => {
 
   const WrapText = (text) => (
     <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-      {text?.match(/\w+|\W+/g)?.map((seg, i) => (
-        <Text key={i}>{seg}</Text>
-      ))}
+      {text?.match(/\w+|\W+/g)?.map((seg, i) => {
+        console.log(seg);
+        if (Number(seg) / Number(seg) === 1) {
+          return <Text key={i}>{Number(seg).toLocaleString()}</Text>;
+        } else {
+          return <Text key={i}>{seg.toLocaleString()}</Text>;
+        }
+      })}
     </View>
   );
 
   const createTableRowITDYN = (x) => {
     const formattedNumber = (x - (x - 1)).toString().padStart(4, "0");
     switch (true) {
-      case x === 1:
+      case x >= 1:
         return (
-          <View style={tableRowStyle}>
-            <View style={firstTableColStyle}>
-              <Text style={tableCellStyle}>Element</Text>
-            </View>
+          <View style={subTableDisplay}>
+            {headerSubTable()}
 
-            <View style={tableColStyle}>
-              <Text style={tableCellStyle}>vbvb</Text>
-            </View>
-          </View>
-        );
-
-      case x > 1:
-        return (
-          <View style={(tableRowStyle, testDisplay)}>
             <View>
               <View style={{ display: "flex", flexDirection: "row" }}>
                 <View style={{ ...inlineStyle, ...inlineOrder }}>
                   <Text>{WrapText("1")}</Text>
                 </View>
                 <View style={{ ...inlineStyle, ...inlineCode }}>
-                  <Text>{WrapText(`XXX-${formattedNumber}`)}</Text>
+                  <Text>{`XXX-${formattedNumber}`}</Text>
                 </View>
                 <View style={{ ...inlineStyle, ...inlineDescr }}>
-                  <Text>{WrapText("Description")}</Text>
+                  <Text>{WrapText("loremfa-rotate-180")}</Text>
                 </View>
                 <View style={{ ...inlineStyle, ...inlineQTY }}>
-                  <Text>{WrapText("QTY")}</Text>
+                  <Text>{WrapText("99")}</Text>
                 </View>
                 <View style={{ ...inlineStyle, ...inlinePrice }}>
-                  <Text>{WrapText("Price")}</Text>
+                  <Text>{WrapText("9999")}</Text>
                 </View>
                 <View style={{ ...inlineStyle, ...inlineTotal }}>
-                  <Text>{WrapText("Total")}</Text>
+                  <Text>{WrapText("99999")}</Text>
                 </View>
               </View>
             </View>
@@ -171,19 +187,19 @@ const TableDocument = () => {
                       <Text>{WrapText(`${2 + index}`)}</Text>
                     </View>
                     <View style={{ ...inlineStyle, ...inlineCode }}>
-                      <Text>{WrapText(`XXX-${formattedNumberx}`)}</Text>
+                      <Text>{`XXX-${formattedNumberx}`}</Text>
                     </View>
                     <View style={{ ...inlineStyle, ...inlineDescr }}>
-                      <Text>{WrapText("Description")}</Text>
+                      <Text>{WrapText("loremfa-rotate-180asdasd")}</Text>
                     </View>
                     <View style={{ ...inlineStyle, ...inlineQTY }}>
-                      <Text>{WrapText("QTY")}</Text>
+                      <Text>{WrapText("99")}</Text>
                     </View>
                     <View style={{ ...inlineStyle, ...inlinePrice }}>
-                      <Text>{WrapText("Price")}</Text>
+                      <Text>{WrapText("9999")}</Text>
                     </View>
                     <View style={{ ...inlineStyle, ...inlineTotal }}>
-                      <Text>{WrapText("Total")}</Text>
+                      <Text>{WrapText("99999")}</Text>
                     </View>
                   </View>
                 </View>
@@ -202,7 +218,7 @@ const TableDocument = () => {
       <Page style={pageStyle} size="A4" orientation="portrait">
         <View style={tableStyle}>
           {createTableHeaderIT()}
-          {createTableRowIT(50)}
+          {createTableRowIT(10)}
         </View>
       </Page>
     </Document>
@@ -282,7 +298,7 @@ const tableCellHeaderStyle = {
 };
 
 const inlineStyle = { padding: "10px", fontSize: 10 };
-const inlineOrder = { width: "6.5%" };
+const inlineOrder = { width: "6.5%", textAlign: "right" };
 const inlineCode = { width: "14%" };
 const inlineDescr = { width: "37.5%" };
 const inlineQTY = { width: "14%" };
@@ -303,7 +319,7 @@ const image = {
   backgroundColor: "#0033E6",
 };
 
-const testDisplay = {
+const subTableDisplay = {
   margin: 5,
   display: "flex",
 };
