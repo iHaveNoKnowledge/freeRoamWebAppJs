@@ -10,6 +10,9 @@ const TableDocument = () => {
     contact: "",
   });
 
+<<<<<<< HEAD
+>>>>>>> parent of 3d07800 (update)
+=======
 >>>>>>> parent of 3d07800 (update)
   const createTableHeader = () => {
     return (
@@ -86,8 +89,11 @@ const TableDocument = () => {
       <View style={tableRowStyle}>
         <View style={firstTableColStyle}>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <Text style={tableCellStyle}>Element</Text>
 =======
+=======
+>>>>>>> parent of 3d07800 (update)
           {/* <Text style={tableCellStyle}>Element</Text> */}
           {createTableRowITDYN(x)}
         </View>
@@ -136,6 +142,7 @@ const TableDocument = () => {
               <Text style={tableCellStyle}>Element</Text>
             </View>
 <<<<<<< HEAD
+<<<<<<< HEAD
           </View>
         );
       case x > 1:
@@ -144,6 +151,8 @@ const TableDocument = () => {
             <View style={firstTableColStyle}>
               <Text style={tableCellStyle}>Element</Text>
 =======
+=======
+>>>>>>> parent of 3d07800 (update)
 
             <View style={tableColStyle}>
               <Text style={tableCellStyle}>vbvb</Text>
@@ -223,8 +232,12 @@ const TableDocument = () => {
         <View style={tableStyle}>
           {createTableHeaderIT()}
 <<<<<<< HEAD
+<<<<<<< HEAD
           {/* {createTableRowIT()} */}
           {createTableRowITDy(3)}
+=======
+          {createTableRowIT(50)}
+>>>>>>> parent of 3d07800 (update)
 =======
           {createTableRowIT(50)}
 >>>>>>> parent of 3d07800 (update)
