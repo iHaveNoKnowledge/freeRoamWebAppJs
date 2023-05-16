@@ -7,7 +7,6 @@ const App = () => {
     <PDFViewer style={viewerStyle}>
       <TableDocument />
     </PDFViewer>
-    // <TableDocument />
   );
 };
 
