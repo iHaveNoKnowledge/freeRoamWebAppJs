@@ -1,7 +1,14 @@
 import React from "react";
-import { Page, Text, View, Document } from "@react-pdf/renderer";
+import { Page, Text, View, Document, Image } from "@react-pdf/renderer";
+import logoHeader from "../assets/itLogo-1.png";
 
 const TableDocument = () => {
+  const [reportedData, setReportedData] = React.useState({
+    img: "",
+    branch: "",
+    contact: "",
+  });
+
   const createTableHeader = () => {
     return (
       <View style={tableRowStyle} fixed>
@@ -80,7 +87,9 @@ const TableDocument = () => {
         </View>
 
         <View style={tableColStyle}>
-          <Text style={tableCellStyle}>Element</Text>
+          <Text style={tableCellStyle}>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit, dolore.
+          </Text>
         </View>
 
         <View style={tableColStyle}>
@@ -90,7 +99,27 @@ const TableDocument = () => {
     );
   };
 
-  const createTableRowITDy = (x) => {
+  const createTableHeaderITDYN = () => {
+    return (
+      <View style={tableRowStyle} fixed>
+        <View style={firstTableColHeaderStyle}>
+          <Image src={logoHeader} style={image} />
+        </View>
+
+        <View style={tableColHeaderStyle}>
+          <Text style={tableCellHeaderStyle}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, eligendi!
+          </Text>
+        </View>
+
+        <View style={tableColHeaderStyle}>
+          <Text style={tableCellHeaderStyle}>Column</Text>
+        </View>
+      </View>
+    );
+  };
+
+  const createTableRowITDYN = (x) => {
     switch (true) {
       case x === 1:
         return (
@@ -100,7 +129,6 @@ const TableDocument = () => {
             </View>
           </View>
         );
-        break;
 
       case x > 1:
         return (
@@ -109,13 +137,13 @@ const TableDocument = () => {
               <Text style={tableCellStyle}>Element</Text>
             </View>
 
-            <View style={tableColStyle}>
-              <Text style={tableCellStyle}>Element</Text>
-            </View>
-
-            <View style={tableColStyle}>
-              <Text style={tableCellStyle}>Element</Text>
-            </View>
+            {[...Array(x - 1)].map((table, index) => {
+              return (
+                <View style={tableColStyle} key={index}>
+                  <Text style={tableCellStyle}>Element</Text>
+                </View>
+              );
+            })}
           </View>
         );
 
@@ -128,7 +156,8 @@ const TableDocument = () => {
     <Document>
       <Page style={pageStyle} size="A4" orientation="portrait">
         <View style={tableStyle}>
-          {createTableHeaderIT()}
+          {createTableHeaderITDYN()}
+          {createTableRowITDYN(1)}
           {createTableRowIT()}
         </View>
       </Page>
@@ -156,7 +185,8 @@ const tableRowStyle = {
 };
 
 const firstTableColHeaderStyle = {
-  width: "28vh",
+  // width: "28vh",
+  width: "100%",
   borderStyle: "solid",
   borderColor: "#000",
   borderBottomColor: "#000",
@@ -167,7 +197,8 @@ const firstTableColHeaderStyle = {
 };
 
 const tableColHeaderStyle = {
-  width: "28vh",
+  // width: "28vh",
+  width: "100%",
   borderStyle: "solid",
   borderColor: "#000",
   borderBottomColor: "#000",
@@ -179,20 +210,24 @@ const tableColHeaderStyle = {
 };
 
 const firstTableColStyle = {
-  width: "28vh",
+  // width: "28vh",
+  width: "100%",
   borderStyle: "solid",
   borderColor: "#000",
   borderWidth: 1,
   borderTopWidth: 0,
+  whiteSpace: "normal",
 };
 
 const tableColStyle = {
-  width: "28vh",
+  // width: "28vh",
+  width: "100%",
   borderStyle: "solid",
   borderColor: "#000",
   borderWidth: 1,
   borderLeftWidth: 0,
   borderTopWidth: 0,
+  whiteSpace: "pre",
 };
 
 const tableCellHeaderStyle = {
@@ -208,6 +243,15 @@ const tableCellStyle = {
   marginLeft: "auto",
   marginRight: "auto",
   fontSize: 10,
+  display: "flex",
+  flexWrap: "wrap",
+  whiteSpace: "normal",
+};
+
+const image = {
+  marginVertical: 1,
+  marginHorizontal: 50,
+  backgroundColor: "#0033E6",
 };
 
 export default TableDocument;
