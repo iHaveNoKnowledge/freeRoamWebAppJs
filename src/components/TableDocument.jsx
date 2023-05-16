@@ -65,11 +65,13 @@ const TableDocument = () => {
     return (
       <View style={tableRowStyle} fixed>
         <View style={firstTableColHeaderStyle}>
-          <Text style={tableCellHeaderStyle}>Column</Text>
+          <Image src={logoHeader} style={image} />
         </View>
 
         <View style={tableColHeaderStyle}>
-          <Text style={tableCellHeaderStyle}>Column</Text>
+          <Text style={tableCellHeaderStyle}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, eligendi!
+          </Text>
         </View>
 
         <View style={tableColHeaderStyle}>
@@ -79,21 +81,12 @@ const TableDocument = () => {
     );
   };
 
-  const createTableRowIT = () => {
+  const createTableRowIT = (x) => {
     return (
       <View style={tableRowStyle}>
         <View style={firstTableColStyle}>
-          <Text style={tableCellStyle}>Element</Text>
-        </View>
-
-        <View style={tableColStyle}>
-          <Text style={tableCellStyle}>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit, dolore.
-          </Text>
-        </View>
-
-        <View style={tableColStyle}>
-          <Text style={tableCellStyle}>Element</Text>
+          {/* <Text style={tableCellStyle}>Element</Text> */}
+          {createTableRowITDYN(x)}
         </View>
       </View>
     );
@@ -119,7 +112,16 @@ const TableDocument = () => {
     );
   };
 
+  const WrapText = (text) => (
+    <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+      {text?.match(/\w+|\W+/g)?.map((seg, i) => (
+        <Text key={i}>{seg}</Text>
+      ))}
+    </View>
+  );
+
   const createTableRowITDYN = (x) => {
+    const formattedNumber = (x - (x - 1)).toString().padStart(4, "0");
     switch (true) {
       case x === 1:
         return (
@@ -127,20 +129,63 @@ const TableDocument = () => {
             <View style={firstTableColStyle}>
               <Text style={tableCellStyle}>Element</Text>
             </View>
+
+            <View style={tableColStyle}>
+              <Text style={tableCellStyle}>vbvb</Text>
+            </View>
           </View>
         );
 
       case x > 1:
         return (
-          <View style={tableRowStyle}>
-            <View style={firstTableColStyle}>
-              <Text style={tableCellStyle}>Element</Text>
+          <View style={(tableRowStyle, testDisplay)}>
+            <View>
+              <View style={{ display: "flex", flexDirection: "row" }}>
+                <View style={{ ...inlineStyle, ...inlineOrder }}>
+                  <Text>{WrapText("1")}</Text>
+                </View>
+                <View style={{ ...inlineStyle, ...inlineCode }}>
+                  <Text>{WrapText(`XXX-${formattedNumber}`)}</Text>
+                </View>
+                <View style={{ ...inlineStyle, ...inlineDescr }}>
+                  <Text>{WrapText("Description")}</Text>
+                </View>
+                <View style={{ ...inlineStyle, ...inlineQTY }}>
+                  <Text>{WrapText("QTY")}</Text>
+                </View>
+                <View style={{ ...inlineStyle, ...inlinePrice }}>
+                  <Text>{WrapText("Price")}</Text>
+                </View>
+                <View style={{ ...inlineStyle, ...inlineTotal }}>
+                  <Text>{WrapText("Total")}</Text>
+                </View>
+              </View>
             </View>
 
             {[...Array(x - 1)].map((table, index) => {
+              const formattedNumberx = (index + 2).toString().padStart(4, "0");
               return (
-                <View style={tableColStyle} key={index}>
-                  <Text style={tableCellStyle}>Element</Text>
+                <View key={index}>
+                  <View break={true} style={{ display: "flex", flexDirection: "row" }}>
+                    <View style={{ ...inlineStyle, ...inlineOrder }}>
+                      <Text>{WrapText(`${2 + index}`)}</Text>
+                    </View>
+                    <View style={{ ...inlineStyle, ...inlineCode }}>
+                      <Text>{WrapText(`XXX-${formattedNumberx}`)}</Text>
+                    </View>
+                    <View style={{ ...inlineStyle, ...inlineDescr }}>
+                      <Text>{WrapText("Description")}</Text>
+                    </View>
+                    <View style={{ ...inlineStyle, ...inlineQTY }}>
+                      <Text>{WrapText("QTY")}</Text>
+                    </View>
+                    <View style={{ ...inlineStyle, ...inlinePrice }}>
+                      <Text>{WrapText("Price")}</Text>
+                    </View>
+                    <View style={{ ...inlineStyle, ...inlineTotal }}>
+                      <Text>{WrapText("Total")}</Text>
+                    </View>
+                  </View>
                 </View>
               );
             })}
@@ -156,9 +201,8 @@ const TableDocument = () => {
     <Document>
       <Page style={pageStyle} size="A4" orientation="portrait">
         <View style={tableStyle}>
-          {createTableHeaderITDYN()}
-          {createTableRowITDYN(1)}
-          {createTableRowIT()}
+          {createTableHeaderIT()}
+          {createTableRowIT(50)}
         </View>
       </Page>
     </Document>
@@ -191,7 +235,7 @@ const firstTableColHeaderStyle = {
   borderColor: "#000",
   borderBottomColor: "#000",
   borderWidth: 1,
-  backgroundColor: "#bdbdbd",
+  backgroundColor: "#0033E6",
   display: "flex",
   justifyContent: "center",
 };
@@ -234,24 +278,34 @@ const tableCellHeaderStyle = {
   margin: 4,
   fontSize: 12,
   fontWeight: "bold",
-  marginLeft: "auto",
-  marginRight: "auto",
+  width: 160,
 };
+
+const inlineStyle = { padding: "10px", fontSize: 10 };
+const inlineOrder = { width: "6.5%" };
+const inlineCode = { width: "14%" };
+const inlineDescr = { width: "37.5%" };
+const inlineQTY = { width: "14%" };
+const inlinePrice = { width: "14%" };
+const inlineTotal = { width: "14%" };
 
 const tableCellStyle = {
   margin: 5,
-  marginLeft: "auto",
-  marginRight: "auto",
   fontSize: 10,
-  display: "flex",
-  flexWrap: "wrap",
-  whiteSpace: "normal",
+  width: 160,
+  flexGrow: 0,
+  textAlign: "left",
 };
 
 const image = {
   marginVertical: 1,
-  marginHorizontal: 50,
+  marginHorizontal: 5,
   backgroundColor: "#0033E6",
+};
+
+const testDisplay = {
+  margin: 5,
+  display: "flex",
 };
 
 export default TableDocument;
