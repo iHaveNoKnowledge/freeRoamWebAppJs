@@ -9,6 +9,10 @@ const TableDocument = () => {
     contact: "",
   });
 
+  class Table {
+    constructor() {}
+  }
+
   const headerSubTable = () => {
     return (
       <View style={{ display: "flex", flexDirection: "row" }} fixed>
@@ -137,7 +141,6 @@ const TableDocument = () => {
   const WrapText = (text) => (
     <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
       {text?.match(/\w+|\W+/g)?.map((seg, i) => {
-        console.log(seg);
         if (Number(seg) / Number(seg) === 1) {
           return <Text key={i}>{Number(seg).toLocaleString()}</Text>;
         } else {
