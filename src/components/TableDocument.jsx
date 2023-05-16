@@ -2,6 +2,15 @@ import React from "react";
 import { Page, Text, View, Document } from "@react-pdf/renderer";
 
 const TableDocument = () => {
+<<<<<<< HEAD
+=======
+  const [reportedData, setReportedData] = React.useState({
+    img: "",
+    branch: "",
+    contact: "",
+  });
+
+>>>>>>> parent of 3d07800 (update)
   const createTableHeader = () => {
     return (
       <View style={tableRowStyle} fixed>
@@ -76,7 +85,22 @@ const TableDocument = () => {
     return (
       <View style={tableRowStyle}>
         <View style={firstTableColStyle}>
+<<<<<<< HEAD
           <Text style={tableCellStyle}>Element</Text>
+=======
+          {/* <Text style={tableCellStyle}>Element</Text> */}
+          {createTableRowITDYN(x)}
+        </View>
+      </View>
+    );
+  };
+
+  const createTableHeaderITDYN = () => {
+    return (
+      <View style={tableRowStyle} fixed>
+        <View style={firstTableColHeaderStyle}>
+          <Image src={logoHeader} style={image} />
+>>>>>>> parent of 3d07800 (update)
         </View>
 
         <View style={tableColStyle}>
@@ -90,7 +114,20 @@ const TableDocument = () => {
     );
   };
 
+<<<<<<< HEAD
   const createTableRowITDy = (x) => {
+=======
+  const WrapText = (text) => (
+    <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+      {text?.match(/\w+|\W+/g)?.map((seg, i) => (
+        <Text key={i}>{seg}</Text>
+      ))}
+    </View>
+  );
+
+  const createTableRowITDYN = (x) => {
+    const formattedNumber = (x - (x - 1)).toString().padStart(4, "0");
+>>>>>>> parent of 3d07800 (update)
     switch (true) {
       case x === 1:
         return (
@@ -98,6 +135,7 @@ const TableDocument = () => {
             <View style={firstTableColStyle}>
               <Text style={tableCellStyle}>Element</Text>
             </View>
+<<<<<<< HEAD
           </View>
         );
       case x > 1:
@@ -105,12 +143,69 @@ const TableDocument = () => {
           <View style={tableRowStyle}>
             <View style={firstTableColStyle}>
               <Text style={tableCellStyle}>Element</Text>
+=======
+
+            <View style={tableColStyle}>
+              <Text style={tableCellStyle}>vbvb</Text>
+            </View>
+          </View>
+        );
+
+      case x > 1:
+        return (
+          <View style={(tableRowStyle, testDisplay)}>
+            <View>
+              <View style={{ display: "flex", flexDirection: "row" }}>
+                <View style={{ ...inlineStyle, ...inlineOrder }}>
+                  <Text>{WrapText("1")}</Text>
+                </View>
+                <View style={{ ...inlineStyle, ...inlineCode }}>
+                  <Text>{WrapText(`XXX-${formattedNumber}`)}</Text>
+                </View>
+                <View style={{ ...inlineStyle, ...inlineDescr }}>
+                  <Text>{WrapText("Description")}</Text>
+                </View>
+                <View style={{ ...inlineStyle, ...inlineQTY }}>
+                  <Text>{WrapText("QTY")}</Text>
+                </View>
+                <View style={{ ...inlineStyle, ...inlinePrice }}>
+                  <Text>{WrapText("Price")}</Text>
+                </View>
+                <View style={{ ...inlineStyle, ...inlineTotal }}>
+                  <Text>{WrapText("Total")}</Text>
+                </View>
+              </View>
+>>>>>>> parent of 3d07800 (update)
             </View>
 
             {[...Array(x - 1)].map((table, index) => {
               return (
+<<<<<<< HEAD
                 <View style={tableColStyle} key={index}>
                   <Text style={tableCellStyle}>Element</Text>
+=======
+                <View key={index}>
+                  <View break={true} style={{ display: "flex", flexDirection: "row" }}>
+                    <View style={{ ...inlineStyle, ...inlineOrder }}>
+                      <Text>{WrapText(`${2 + index}`)}</Text>
+                    </View>
+                    <View style={{ ...inlineStyle, ...inlineCode }}>
+                      <Text>{WrapText(`XXX-${formattedNumberx}`)}</Text>
+                    </View>
+                    <View style={{ ...inlineStyle, ...inlineDescr }}>
+                      <Text>{WrapText("Description")}</Text>
+                    </View>
+                    <View style={{ ...inlineStyle, ...inlineQTY }}>
+                      <Text>{WrapText("QTY")}</Text>
+                    </View>
+                    <View style={{ ...inlineStyle, ...inlinePrice }}>
+                      <Text>{WrapText("Price")}</Text>
+                    </View>
+                    <View style={{ ...inlineStyle, ...inlineTotal }}>
+                      <Text>{WrapText("Total")}</Text>
+                    </View>
+                  </View>
+>>>>>>> parent of 3d07800 (update)
                 </View>
               );
             })}
@@ -127,8 +222,12 @@ const TableDocument = () => {
       <Page style={pageStyle} size="A4" orientation="portrait">
         <View style={tableStyle}>
           {createTableHeaderIT()}
+<<<<<<< HEAD
           {/* {createTableRowIT()} */}
           {createTableRowITDy(3)}
+=======
+          {createTableRowIT(50)}
+>>>>>>> parent of 3d07800 (update)
         </View>
       </Page>
     </Document>
@@ -202,11 +301,39 @@ const tableCellHeaderStyle = {
   marginRight: "auto",
 };
 
+<<<<<<< HEAD
+=======
+const inlineStyle = { padding: "10px", fontSize: 10 };
+const inlineOrder = { width: "6.5%" };
+const inlineCode = { width: "14%" };
+const inlineDescr = { width: "37.5%" };
+const inlineQTY = { width: "14%" };
+const inlinePrice = { width: "14%" };
+const inlineTotal = { width: "14%" };
+
+>>>>>>> parent of 3d07800 (update)
 const tableCellStyle = {
   margin: 5,
   marginLeft: "auto",
   marginRight: "auto",
   fontSize: 10,
+<<<<<<< HEAD
+=======
+  width: 160,
+  flexGrow: 0,
+  textAlign: "left",
+};
+
+const image = {
+  marginVertical: 1,
+  marginHorizontal: 5,
+  backgroundColor: "#0033E6",
+};
+
+const testDisplay = {
+  margin: 5,
+  display: "flex",
+>>>>>>> parent of 3d07800 (update)
 };
 
 export default TableDocument;
