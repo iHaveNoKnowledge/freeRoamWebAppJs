@@ -1,6 +1,5 @@
 import React from "react";
-import { Page, Text, View, Document, Image } from "@react-pdf/renderer";
-import logoHeader from "../assets/itLogo-1.png";
+import { Page, Text, View, Document } from "@react-pdf/renderer";
 
 const TableDocument = () => {
   const [reportedData, setReportedData] = React.useState({
@@ -94,13 +93,11 @@ const TableDocument = () => {
     return (
       <View style={tableRowStyle} fixed>
         <View style={firstTableColHeaderStyle}>
-          <Image src={logoHeader} style={image} />
+          <Text style={tableCellHeaderStyle}>Column</Text>
         </View>
 
         <View style={tableColHeaderStyle}>
-          <Text style={tableCellHeaderStyle}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, eligendi!
-          </Text>
+          <Text style={tableCellHeaderStyle}>Column</Text>
         </View>
 
         <View style={tableColHeaderStyle}>
@@ -110,10 +107,32 @@ const TableDocument = () => {
     );
   };
 
-  const createTableRowIT = (x) => {
+  const createTableRowIT = () => {
     return (
       <View style={tableRowStyle}>
-        <View style={firstTableColStyle}>{createTableRowITDYN(x)}</View>
+        <View style={firstTableColStyle}>
+
+
+
+          <Text style={tableCellStyle}>Element</Text>
+
+
+
+          {/* <Text style={tableCellStyle}>Element</Text> */}
+          {createTableRowITDYN(x)}
+
+          <Text style={tableCellStyle}>Element</Text>
+        </View>
+
+        <View style={tableColStyle}>
+          <Text style={tableCellStyle}>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit, dolore.
+          </Text>
+        </View>
+
+        <View style={tableColStyle}>
+          <Text style={tableCellStyle}>Element
+        </View>
       </View>
     );
   };
@@ -125,14 +144,12 @@ const TableDocument = () => {
           <Image src={logoHeader} style={image} />
         </View>
 
-        <View style={tableColHeaderStyle}>
-          <Text style={tableCellHeaderStyle}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, eligendi!
-          </Text>
+        <View style={tableColStyle}>
+          <Text style={tableCellStyle}>Element</Text>
         </View>
 
-        <View style={tableColHeaderStyle}>
-          <Text style={tableCellHeaderStyle}>Column</Text>
+        <View style={tableColStyle}>
+          <Text style={tableCellStyle}>Element</Text>
         </View>
       </View>
     );
@@ -151,60 +168,37 @@ const TableDocument = () => {
   );
 
   const createTableRowITDYN = (x) => {
-    const formattedNumber = (x - (x - 1)).toString().padStart(4, "0");
     switch (true) {
-      case x >= 1:
+      case x > 1:
         return (
-          <View style={subTableDisplay}>
-            {headerSubTable()}
-
+          <View style={(tableRowStyle, testDisplay)}>
             <View>
               <View style={{ display: "flex", flexDirection: "row" }}>
                 <View style={{ ...inlineStyle, ...inlineOrder }}>
                   <Text>{WrapText("1")}</Text>
                 </View>
                 <View style={{ ...inlineStyle, ...inlineCode }}>
-                  <Text>{`XXX-${formattedNumber}`}</Text>
+                  <Text>{WrapText(`XXX-${formattedNumber}`)}</Text>
                 </View>
                 <View style={{ ...inlineStyle, ...inlineDescr }}>
-                  <Text>{WrapText("loremfa-rotate-180")}</Text>
+                  <Text>{WrapText("Description")}</Text>
                 </View>
                 <View style={{ ...inlineStyle, ...inlineQTY }}>
-                  <Text>{WrapText("99")}</Text>
+                  <Text>{WrapText("QTY")}</Text>
                 </View>
                 <View style={{ ...inlineStyle, ...inlinePrice }}>
-                  <Text>{WrapText("9999")}</Text>
+                  <Text>{WrapText("Price")}</Text>
                 </View>
                 <View style={{ ...inlineStyle, ...inlineTotal }}>
-                  <Text>{WrapText("99999")}</Text>
+                  <Text>{WrapText("Total")}</Text>
                 </View>
               </View>
             </View>
 
             {[...Array(x - 1)].map((table, index) => {
-              const formattedNumberx = (index + 2).toString().padStart(4, "0");
               return (
-                <View key={index}>
-                  <View break={true} style={{ display: "flex", flexDirection: "row" }}>
-                    <View style={{ ...inlineStyle, ...inlineOrder }}>
-                      <Text>{WrapText(`${2 + index}`)}</Text>
-                    </View>
-                    <View style={{ ...inlineStyle, ...inlineCode }}>
-                      <Text>{`XXX-${formattedNumberx}`}</Text>
-                    </View>
-                    <View style={{ ...inlineStyle, ...inlineDescr }}>
-                      <Text>{WrapText("loremfa-rotate-180asdasd")}</Text>
-                    </View>
-                    <View style={{ ...inlineStyle, ...inlineQTY }}>
-                      <Text>{WrapText("99")}</Text>
-                    </View>
-                    <View style={{ ...inlineStyle, ...inlinePrice }}>
-                      <Text>{WrapText("9999")}</Text>
-                    </View>
-                    <View style={{ ...inlineStyle, ...inlineTotal }}>
-                      <Text>{WrapText("99999")}</Text>
-                    </View>
-                  </View>
+                <View style={tableColStyle} key={index}>
+                  <Text style={tableCellStyle}>Element</Text>
                 </View>
               );
             })}
@@ -220,15 +214,28 @@ const TableDocument = () => {
     <Document>
       <Page style={pageStyle} size="A4" orientation="portrait">
         <View style={tableStyle}>
+
           {createTableHeaderIT()}
-          {createTableRowIT(10)}
+
+
+          {/* {createTableRowIT()} */}
+          {createTableRowITDy(3)}
+
+          {createTableRowIT(50)}
+
+
+          {createTableRowIT(50)}
+
+
+          {createTableHeaderITDYN()}
+          {createTableRowITDYN(1)}
+         
         </View>
       </Page>
     </Document>
   );
 };
 
-//style------------------------------------------------------------------------------------
 const pageStyle = {
   display: "flex",
   flexDirection: "row",
@@ -249,20 +256,18 @@ const tableRowStyle = {
 };
 
 const firstTableColHeaderStyle = {
-  // width: "28vh",
-  width: "100%",
+  width: "28vh",
   borderStyle: "solid",
   borderColor: "#000",
   borderBottomColor: "#000",
   borderWidth: 1,
-  backgroundColor: "#0033E6",
+  backgroundColor: "#bdbdbd",
   display: "flex",
   justifyContent: "center",
 };
 
 const tableColHeaderStyle = {
-  // width: "28vh",
-  width: "100%",
+  width: "28vh",
   borderStyle: "solid",
   borderColor: "#000",
   borderBottomColor: "#000",
@@ -274,58 +279,44 @@ const tableColHeaderStyle = {
 };
 
 const firstTableColStyle = {
-  // width: "28vh",
-  width: "100%",
+  width: "28vh",
   borderStyle: "solid",
   borderColor: "#000",
   borderWidth: 1,
   borderTopWidth: 0,
-  whiteSpace: "normal",
 };
 
 const tableColStyle = {
-  // width: "28vh",
-  width: "100%",
+  width: "28vh",
   borderStyle: "solid",
   borderColor: "#000",
   borderWidth: 1,
   borderLeftWidth: 0,
   borderTopWidth: 0,
-  whiteSpace: "pre",
 };
 
 const tableCellHeaderStyle = {
   margin: 4,
   fontSize: 12,
   fontWeight: "bold",
-  width: 160,
+  marginLeft: "auto",
+  marginRight: "auto",
 };
-
-const inlineStyle = { padding: "10px", fontSize: 10 };
-const inlineOrder = { width: "6.5%", textAlign: "right" };
-const inlineCode = { width: "14%" };
-const inlineDescr = { width: "37.5%" };
-const inlineQTY = { width: "14%" };
-const inlinePrice = { width: "14%" };
-const inlineTotal = { width: "14%" };
 
 const tableCellStyle = {
   margin: 5,
+  marginLeft: "auto",
+  marginRight: "auto",
   fontSize: 10,
-  width: 160,
-  flexGrow: 0,
-  textAlign: "left",
+  display: "flex",
+  flexWrap: "wrap",
+  whiteSpace: "normal",
 };
 
 const image = {
   marginVertical: 1,
-  marginHorizontal: 5,
+  marginHorizontal: 50,
   backgroundColor: "#0033E6",
-};
-
-const subTableDisplay = {
-  margin: 5,
-  display: "flex",
 };
 
 export default TableDocument;

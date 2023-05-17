@@ -14,7 +14,7 @@ const viewerStyle = {
   display: "block",
   margin: "0 auto",
   width: "70vw",
-  height: "90vh",
+  height: "90vh"
 };
 
 export default App;
