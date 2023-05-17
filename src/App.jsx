@@ -1,28 +1,10 @@
 import React from "react";
 import { PDFViewer } from "@react-pdf/renderer";
 import TableDocument from "./components/TableDocument";
+import { Table } from "./components/classes";
 
 const App = () => {
-  class Table {
-    constructor(colNames = [], rows = 0) {
-      this.colNames = colNames;
-      this.rows = rows;
-    }
-
-    displayDimension() {
-      const colsAMT = this.colNames.length;
-      let rowAMT;
-      if (typeof rows === "number") {
-        rowAMT = this.rows;
-      } else if (Array.isArray(this.rows)) {
-        rowAMT = this.rows.length;
-      }
-
-      console.log("TableDimension: Header: ", colsAMT, ", Row:", rowAMT);
-    }
-  }
-
-  const testTable = new Table(["name", "age"], 3);
+  const testTable = new Table(["แมว", "หมา"]);
   testTable.displayDimension();
 
   return (
