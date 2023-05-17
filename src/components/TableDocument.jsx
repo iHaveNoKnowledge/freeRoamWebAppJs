@@ -12,12 +12,6 @@ const styles = StyleSheet.create({
 });
 
 const TableDocument = () => {
-  const [reportedData, setReportedData] = React.useState({
-    img: "",
-    branch: "",
-    contact: "",
-  });
-
   const createTableHeader = () => {
     return (
       <View style={tableRowStyle} fixed>
@@ -70,7 +64,7 @@ const TableDocument = () => {
     );
   };
 
-  const createTableHeaderIT = () => {
+  const createMainTableHeader = () => {
     return (
       <View style={tableRowStyle} fixed>
         <View style={firstTableColHeaderStyle}>
@@ -84,7 +78,7 @@ const TableDocument = () => {
         </View>
 
         <View style={tableColHeaderStyle}>
-          <View style={{ ...subTableDisplay, ...{ flexDirection: "row" } }}>
+          <View style={{ ...subTableDisplay, ...{ flexDirection: "row", marginTop: "8px" } }}>
             <View style={{ fontSize: 10, width: "17%" }}>
               <Text>ลูกค้า</Text>
             </View>
@@ -176,7 +170,7 @@ const TableDocument = () => {
   );
 
   const createTableRowITDYN = (x) => {
-    const formattedNumber = (x - (x - 1)).toString().padStart(4, "0");
+    const formattedNumber = (x - (x - 1)).toString().padStart(6, "0");
     switch (true) {
       case x >= 1:
         return (
@@ -207,7 +201,7 @@ const TableDocument = () => {
             </View>
 
             {[...Array(x - 1)].map((table, index) => {
-              const formattedNumberx = (index + 2).toString().padStart(4, "0");
+              const formattedNumberx = (index + 2).toString().padStart(6, "0");
               return (
                 <View key={index}>
                   <View break={true} style={{ display: "flex", flexDirection: "row" }}>
@@ -245,8 +239,8 @@ const TableDocument = () => {
     <Document>
       <Page style={pageStyle} size="A4" orientation="portrait">
         <View style={tableStyle}>
-          {createTableHeaderIT()}
-          {createTableRowIT(1)}
+          {createMainTableHeader()}
+          {createTableRowIT(50)}
         </View>
       </Page>
     </Document>
