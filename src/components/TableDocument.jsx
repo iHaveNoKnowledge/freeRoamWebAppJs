@@ -1,6 +1,15 @@
 import React from "react";
-import { Page, Text, View, Document, Image } from "@react-pdf/renderer";
+import { Page, Text, View, Document, Image, Font, StyleSheet } from "@react-pdf/renderer";
 import logoHeader from "../assets/itLogo-1.png";
+import xx from "../assets/fonts/ChakraPetch-Regular.ttf";
+
+Font.register({ family: "Chakra_Petch", src: xx });
+
+const styles = StyleSheet.create({
+  title: {
+    fontFamily: "Chakra_Petch",
+  },
+});
 
 const TableDocument = () => {
   const [reportedData, setReportedData] = React.useState({
@@ -8,35 +17,6 @@ const TableDocument = () => {
     branch: "",
     contact: "",
   });
-
-  class Table {
-    constructor() {}
-  }
-
-  const headerSubTable = () => {
-    return (
-      <View style={{ display: "flex", flexDirection: "row" }} fixed>
-        <View style={{ ...inlineStyle, ...inlineOrder }}>
-          <Text>{WrapText("No")}</Text>
-        </View>
-        <View style={{ ...inlineStyle, ...inlineCode }}>
-          <Text>{WrapText(`Code`)}</Text>
-        </View>
-        <View style={{ ...inlineStyle, ...inlineDescr }}>
-          <Text>{WrapText("Description")}</Text>
-        </View>
-        <View style={{ ...inlineStyle, ...inlineQTY }}>
-          <Text>{WrapText("QTY")}</Text>
-        </View>
-        <View style={{ ...inlineStyle, ...inlinePrice }}>
-          <Text>{WrapText("Price")}</Text>
-        </View>
-        <View style={{ ...inlineStyle, ...inlineTotal }}>
-          <Text>{WrapText("Total")}</Text>
-        </View>
-      </View>
-    );
-  };
 
   const createTableHeader = () => {
     return (
@@ -104,7 +84,47 @@ const TableDocument = () => {
         </View>
 
         <View style={tableColHeaderStyle}>
-          <Text style={tableCellHeaderStyle}>Column</Text>
+          <View style={{ ...subTableDisplay, ...{ flexDirection: "row" } }}>
+            <View style={{ fontSize: 10, width: "17%" }}>
+              <Text>ลูกค้า</Text>
+            </View>
+            <View>
+              <Text style={{ fontSize: 10 }}>:</Text>
+            </View>
+            <View style={{ fontSize: 9, marginVertical: 1, marginLeft: 3, width: 130 }}>
+              <Text>รับตัวแปร Cus str ทำconditional display</Text>
+            </View>
+          </View>
+
+          <View style={{ ...subTableDisplay, ...{ flexDirection: "row" } }}>
+            <View style={{ fontSize: 10, width: "17%" }}>
+              <Text>โทร</Text>
+            </View>
+            <View>
+              <Text style={{ fontSize: 10 }}>:</Text>
+            </View>
+            <View style={{ fontSize: 9, marginVertical: 1, marginLeft: 3, width: 130 }}>
+              <Text>รับตัวแปร custel str ทำconditional display</Text>
+            </View>
+          </View>
+
+          <View
+            style={{
+              borderBottom: "1px solid rgba(21,21,21)",
+            }}
+          ></View>
+
+          <View style={{ ...subTableDisplay, ...{ flexDirection: "row" } }}>
+            <View style={{ fontSize: 10, width: "17%" }}>
+              <Text>Sale</Text>
+            </View>
+            <View>
+              <Text style={{ fontSize: 10 }}>:</Text>
+            </View>
+            <View style={{ fontSize: 9, marginVertical: 1, marginLeft: 3, width: 130 }}>
+              <Text>รับตัวแปร saler ทำconditional display </Text>
+            </View>
+          </View>
         </View>
       </View>
     );
@@ -118,21 +138,26 @@ const TableDocument = () => {
     );
   };
 
-  const createTableHeaderITDYN = () => {
+  const headerSubTable = () => {
     return (
-      <View style={tableRowStyle} fixed>
-        <View style={firstTableColHeaderStyle}>
-          <Image src={logoHeader} style={image} />
+      <View style={{ display: "flex", flexDirection: "row" }} fixed>
+        <View style={{ ...inlineStyle, ...inlineOrder }}>
+          <Text>{WrapText("No")}</Text>
         </View>
-
-        <View style={tableColHeaderStyle}>
-          <Text style={tableCellHeaderStyle}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, eligendi!
-          </Text>
+        <View style={{ ...inlineStyle, ...inlineCode }}>
+          <Text>{WrapText(`Code`)}</Text>
         </View>
-
-        <View style={tableColHeaderStyle}>
-          <Text style={tableCellHeaderStyle}>Column</Text>
+        <View style={{ ...inlineStyle, ...inlineDescr }}>
+          <Text>{WrapText("Description")}</Text>
+        </View>
+        <View style={{ ...inlineStyle, ...inlineQTY }}>
+          <Text>{WrapText("QTY")}</Text>
+        </View>
+        <View style={{ ...inlineStyle, ...inlinePrice }}>
+          <Text>{WrapText("Price")}</Text>
+        </View>
+        <View style={{ ...inlineStyle, ...inlineTotal }}>
+          <Text>{WrapText("Total")}</Text>
         </View>
       </View>
     );
@@ -241,6 +266,7 @@ const pageStyle = {
 const tableStyle = {
   display: "table",
   width: "auto",
+  fontFamily: "Chakra_Petch",
 };
 
 const tableRowStyle = {
@@ -298,7 +324,8 @@ const tableCellHeaderStyle = {
   margin: 4,
   fontSize: 12,
   fontWeight: "bold",
-  width: 160,
+  width: 171,
+  fontFamily: "Chakra_Petch",
 };
 
 const inlineStyle = { padding: "10px", fontSize: 10 };
@@ -315,16 +342,17 @@ const tableCellStyle = {
   width: 160,
   flexGrow: 0,
   textAlign: "left",
+  fontFamily: "Chakra_Petch",
 };
 
 const image = {
   marginVertical: 1,
-  marginHorizontal: 5,
+  marginHorizontal: 15,
   backgroundColor: "#0033E6",
 };
 
 const subTableDisplay = {
-  margin: 5,
+  margin: 4,
   display: "flex",
 };
 
