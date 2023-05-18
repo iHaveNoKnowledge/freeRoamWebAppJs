@@ -89,14 +89,51 @@ export default function FormDialog() {
   //   const cusNameInput = React.useRef();
   //   const cusTelInput = React.useRef(); ^0[2-9]\d{7}$
 
+  const [custNameInput, setCustNameInput] = React.useState("");
+  const [custTelInput, setCustTelInput] = React.useState("");
+  const [btnSwitch, setBtnSwitch] = React.useState(false);
+
+  ///Validation Parts///////////////////////////////
+  const validate = (value) => {
+    const pattern9 = /^0[2,3,4,5,7]\d{7}$/;
+    const pattern10 = /^(06|08|09)\d{8}$/;
+    if (pattern9.test(value)) {
+      console.log("เบอร์บ้าน");
+      setBtnSwitch(true);
+    } else if (pattern10.test(value)) {
+      console.log("เบอร์มือถือ");
+      setBtnSwitch(true);
+    } else {
+      console.log("ไม่ใช่เบอร์ละ");
+      setBtnSwitch(false);
+    }
+
+    return "";
+  };
+
   const handleChange = (e) => {
     console.log("เช็คของ", e.target.id);
+    const value = e.target.value;
+    const patternInt = /^[0-9\b]+$/;
+    const dataValidation = patternInt.test(value);
     if (e.target.id === "cusTelInput") {
       console.log("แกกำลังกรอกเบอร์โทรศัพท์ ");
+      if (value === "" || dataValidation) {
+        setCustTelInput(value);
+      }
+      // validate(value);
     } else {
       console.log("แกกำลังกรอกอย่างที่ไม่ใช่เบอร์โทรศัพท์");
+      setCustNameInput(value);
+      // validate(value);
     }
   };
+
+  React.useEffect(() => {
+    validate(custTelInput);
+  }, [custTelInput]);
+
+  const digitDisplay = custTelInput.length > 1 ? "Digits" : "Digit";
 
   return (
     <div>
@@ -126,35 +163,48 @@ export default function FormDialog() {
           />
           <DialogContent sx={{ borderLeft: "50px dashed #0033E6", backgroundColor: "#4141" }}>
             <DialogContentText sx={{ backgroundColor: "#414151", fontSize: 18, color: "#e6e6e6" }}>
-              ข้อมูลติดต่อ
+              ข้อมูลติดต่อลูกค้า
             </DialogContentText>
             <TextField
               autoFocus
               margin="dense"
               id="cusNameInput"
-              label="ชื่อลูกค้า"
+              label="ชื่อ"
               type="email"
               fullWidth
               variant="standard"
-              //   value={}
+              value={custNameInput}
               onChange={handleChange}
             />
             <TextField
               autoFocus
               margin="dense"
               id="cusTelInput"
-              label="เบอร์ลูกค้า"
+              label={
+                <Box>
+                  เบอร์ติดต่อ{" "}
+                  {custTelInput.length !== 0 ? (
+                    <>
+                      {custTelInput.length} {digitDisplay}
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </Box>
+              }
               type="email"
               fullWidth
               variant="standard"
-              //   value={}
+              value={custTelInput}
               onChange={handleChange}
             />
           </DialogContent>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSave}>Subscribe</Button>
+          <Button error disabled={!btnSwitch} onClick={handleSave}>
+            Save
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
