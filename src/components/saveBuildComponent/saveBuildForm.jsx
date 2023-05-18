@@ -10,12 +10,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false);
-  const [collector, setCollector] = React.useState("");
-  const [inputName, setInputName] = React.useState({
+  const [inputData, setInputData] = React.useState({
     buildedName: "",
     customerName: "",
+    customerTel: "",
+    salerName: "",
   });
-  const { buildedName, customerName } = inputName;
+  const { buildedName, customerName, customerTel, salerName } = inputData;
   const [selectedItem, setSelectedItem] = React.useState({
     partData: [
       {
@@ -67,33 +68,49 @@ export default function FormDialog() {
     ],
   });
 
+  ////onclick เปิด Form ////////////////////////////////////////////////////////////////////
   const handleClickOpen = () => {
     setOpen(true);
-    setInputName((prev) => {
-      return { ...prev, buildedName: "" };
+    ///ล้างค่า สำหรับทดสอบ
+    setInputData((prev) => {
+      return { ...prev, buildedName: "", customerName: "", customerTel: "", salerName: "" };
     });
-    setCollector("");
   };
 
+  ////onclick ปิด Form ////////////////////////////////////////////////////////////////////
   const handleClose = () => {
     setOpen(false);
   };
-
+  ////onclick สำหรับกด save SPEC ////////////////////////////////////////////////////////////////////
   const handleSave = () => {
     console.log("กด Save!!", buildedName);
-    setCollector(buildedName);
+    setInputData((prev) => {
+      return {
+        ...prev,
+        buildedName: buildedNameInput,
+        customerName: custNameInput,
+        customerTel: custTelInput,
+        salerName: salerNameInput,
+      };
+    });
+
+    setBuildedNameInput("");
+    setSalerNameInput("");
+    setCustNameInput("");
+    setCustTelInput("");
     handleClose();
   };
-  // น่าจะไม่ต้องใช้ ตอนแรกว่าจะใช้ อิงว่า event มาจาก ชื่อ ref อะไร แต่ปัจจุบัน ใช้ e.target.id แทน รอลบเลย ถ้า id มัน works
-  //   const buildedNameInput = React.useRef();
-  //   const cusNameInput = React.useRef();
-  //   const cusTelInput = React.useRef(); ^0[2-9]\d{7}$
 
+  ////BuildedName Input ไม่ต้องมี valid
+  const [buildedNameInput, setBuildedNameInput] = React.useState("");
+  ////SalerName Input ไม่ต้องมี valid
+  const [salerNameInput, setSalerNameInput] = React.useState("");
+  ////CustName Input ไม่ต้องมี valid
   const [custNameInput, setCustNameInput] = React.useState("");
+  ////Phone Num Input Validation///////////////////////////////
   const [custTelInput, setCustTelInput] = React.useState("");
   const [btnSwitch, setBtnSwitch] = React.useState(false);
 
-  ///Validation Parts///////////////////////////////
   const validate = (value) => {
     const pattern9 = /^0[2,3,4,5,7]\d{7}$/;
     const pattern10 = /^(06|08|09)\d{8}$/;
@@ -112,20 +129,25 @@ export default function FormDialog() {
   };
 
   const handleChange = (e) => {
-    console.log("เช็คของ", e.target.id);
     const value = e.target.value;
     const patternInt = /^[0-9\b]+$/;
     const dataValidation = patternInt.test(value);
+
     if (e.target.id === "cusTelInput") {
       console.log("แกกำลังกรอกเบอร์โทรศัพท์ ");
       if (value === "" || dataValidation) {
         setCustTelInput(value);
+        setInputData((prev) => {
+          return { ...prev, customerTel: value };
+        });
       }
-      // validate(value);
-    } else {
-      console.log("แกกำลังกรอกอย่างที่ไม่ใช่เบอร์โทรศัพท์");
+    } else if (e.target.id === "custNameInput") {
+      console.log("แกกำลังกรอกชื่อลูกค้า");
       setCustNameInput(value);
-      // validate(value);
+    } else if (e.target.id === "salerNameInput") {
+      setSalerNameInput(value);
+    } else if (e.target.id === "buildedName") {
+      setBuildedNameInput(value);
     }
   };
 
@@ -140,69 +162,96 @@ export default function FormDialog() {
       <Button variant="outlined" onClick={handleClickOpen}>
         Save
       </Button>
-      <Box>Stateมีค่า= {collector ? collector : "ว่าง"}</Box>
+      <Box>Stateมีค่า= {inputData ? JSON.stringify(inputData) : "ว่าง"}</Box>
 
       <Dialog open={open} onClose={handleClose}>
         {/* <DialogTitle>Subscribe</DialogTitle> */}
         <DialogContent sx={{ width: "34vw" }}>
           {/* <DialogContentText>Enter Your Build Name</DialogContentText> */}
-          <TextField
-            autoFocus
-            margin="dense"
-            id="buildedName"
-            label="กรอกชื่อของ Set คอมประกอบ"
-            type="text"
-            fullWidth
-            variant="standard"
-            value={buildedName}
-            onChange={(e) => {
-              setInputName((prev) => {
-                return { ...prev, buildedName: e.target.value };
-              });
-            }}
-          />
-          <DialogContent sx={{ borderLeft: "50px dashed #0033E6", backgroundColor: "#4141" }}>
-            <DialogContentText sx={{ backgroundColor: "#414151", fontSize: 18, color: "#e6e6e6" }}>
-              ข้อมูลติดต่อลูกค้า
+          <Box mb={2}>
+            <DialogContentText
+              sx={{ backgroundColor: "#414151", fontSize: 18, color: "#e6e6e6", px: "10px" }}
+            >
+              ระบุชื่อ Set คอมประกอบ ที่ต้องการ
             </DialogContentText>
             <TextField
+              sx={{ mt: "0px" }}
               autoFocus
               margin="dense"
-              id="cusNameInput"
-              label="ชื่อ"
-              type="email"
+              id="buildedName"
+              label={`{db.buildedName? db.buildedName : db.builedDefName }`}
               fullWidth
-              variant="standard"
-              value={custNameInput}
+              variant="filled"
+              value={buildedNameInput}
               onChange={handleChange}
             />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="cusTelInput"
-              label={
-                <Box>
-                  เบอร์ติดต่อ{" "}
-                  {custTelInput.length !== 0 ? (
-                    <>
-                      {custTelInput.length} {digitDisplay}
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </Box>
-              }
-              type="email"
-              fullWidth
-              variant="standard"
-              value={custTelInput}
-              onChange={handleChange}
-            />
+          </Box>
+          <DialogContent sx={{ borderLeft: "10px solid #0033E6", backgroundColor: "#4141" }}>
+            <DialogContentText
+              sx={{ backgroundColor: "#414151", fontSize: 18, color: "#e6e6e6", px: "10px" }}
+            >
+              ข้อมูลติดต่อลูกค้า
+            </DialogContentText>
+            <Box mb={5}>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="custNameInput"
+                label="ชื่อ"
+                fullWidth
+                variant="standard"
+                value={custNameInput}
+                onChange={handleChange}
+              />
+              <TextField
+                autoFocus
+                margin="dense"
+                id="cusTelInput"
+                label={
+                  <Box>
+                    เบอร์ติดต่อ{" "}
+                    {custTelInput.length !== 0 ? (
+                      <>
+                        current: {custTelInput.length} {digitDisplay}
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </Box>
+                }
+                fullWidth
+                variant="standard"
+                value={custTelInput}
+                onChange={handleChange}
+              />
+            </Box>
+
+            <Box>
+              <DialogContentText
+                sx={{ backgroundColor: "#414151", fontSize: 18, color: "#e6e6e6", px: "10px" }}
+              >
+                ผู้ขาย
+              </DialogContentText>
+
+              <TextField
+                autoFocus
+                margin="dense"
+                id="salerNameInput"
+                label="ชื่อผู้ขาย"
+                fullWidth
+                variant="standard"
+                value={salerNameInput}
+                onChange={handleChange}
+                error={false}
+              />
+            </Box>
           </DialogContent>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button error disabled={!btnSwitch} onClick={handleSave}>
+          <Button onClick={handleClose} variant="contained" color="error">
+            Cancel
+          </Button>
+          <Button disabled={!btnSwitch} onClick={handleSave} variant="contained">
             Save
           </Button>
         </DialogActions>
