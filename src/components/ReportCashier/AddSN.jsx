@@ -60,8 +60,8 @@ export default function AddSN() {
             id: "21",
             code: "ME1-000994",
             description: "KINGSTON FURY IMPACT 8GB (8X1/3200) DDR4 (KF432S20IB/8) NB",
-            selectAmount: 1999,
-            srp: 115000,
+            selectAmount: 2,
+            srp: 1150,
             promotionPrice: 950,
           },
           {
@@ -171,7 +171,6 @@ export default function AddSN() {
       <Button variant="outlined" onClick={handleClickOpen}>
         Add SN
       </Button>
-      <Box>Stateมีค่า= {inputData ? JSON.stringify(inputData) : "ว่าง"}</Box>
 
       <Dialog open={open} onClose={handleClose} maxWidth="none">
         {/* <DialogTitle>Subscribe</DialogTitle> */}
@@ -194,7 +193,7 @@ export default function AddSN() {
               container
               sx={{
                 display: "flex",
-                fontSize: 17,
+                fontSize: 16,
                 color: "#3d3d3d",
                 textAlign: "center",
               }}
@@ -215,7 +214,7 @@ export default function AddSN() {
                       <React.Fragment key={miniIndex}>
                         <Box
                           container
-                          sx={{ display: "flex", textAlign: "center", my: "10px", fontSize: 15 }}
+                          sx={{ display: "flex", textAlign: "center", my: "10px", fontSize: 14 }}
                         >
                           <Box sx={{ flexGrow: 0.2, width: "4.5%" }}>
                             {miniIndex < 1 ? index + 1 : <></>}
@@ -228,17 +227,30 @@ export default function AddSN() {
                             {miniItem.srp * miniItem.selectAmount}
                           </Box>
                         </Box>
-                        <Box
-                          container
-                          sx={{ display: "flex", textAlign: "center", my: "10px", ml: "5.5vw" }}
-                        >
-                          <TextField
-                            size="small"
-                            id="filled-basic"
-                            label="S/N"
-                            variant="filled"
-                            sx={{ zoom: "85%", width: "450px" }}
-                          />
+                        <Box sx={{ overflow: "auto", maxHeight: "150px" }}>
+                          {[...Array(miniItem.selectAmount)].map((item3, index3) => {
+                            return (
+                              <React.Fragment key={index3}>
+                                <Box
+                                  container
+                                  sx={{
+                                    display: "flex",
+                                    textAlign: "center",
+                                    my: "4.5px",
+                                    ml: "5.5vw",
+                                  }}
+                                >
+                                  <TextField
+                                    size="small"
+                                    id="filled-basic"
+                                    label="S/N"
+                                    variant="filled"
+                                    sx={{ zoom: "80%", width: "450px" }}
+                                  />
+                                </Box>
+                              </React.Fragment>
+                            );
+                          })}
                         </Box>
                         <Divider />
                       </React.Fragment>
