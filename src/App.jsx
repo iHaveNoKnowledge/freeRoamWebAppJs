@@ -3,6 +3,7 @@ import { PDFViewer } from "@react-pdf/renderer";
 import TableDocument from "./components/TableDocument";
 import { Table } from "./components/classes";
 import FormDialog from "./components/saveBuildComponent/saveBuildForm";
+import AddSN from "./components/ReportCashier/AddSN";
 
 const App = () => {
   const testTable = new Table(["แมว", "หมา"]);
@@ -11,6 +12,7 @@ const App = () => {
   return (
     <>
       <FormDialog />
+      <AddSN />
       <PDFViewer style={viewerStyle}>
         <TableDocument />
       </PDFViewer>
