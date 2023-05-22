@@ -60,8 +60,8 @@ export default function AddSN() {
             id: "21",
             code: "ME1-000994",
             description: "KINGSTON FURY IMPACT 8GB (8X1/3200) DDR4 (KF432S20IB/8) NB",
-            selectAmount: 2,
-            srp: 1150,
+            selectAmount: 1999,
+            srp: 115000,
             promotionPrice: 950,
           },
           {
@@ -194,17 +194,17 @@ export default function AddSN() {
               container
               sx={{
                 display: "flex",
-                fontSize: 18,
+                fontSize: 17,
                 color: "#3d3d3d",
                 textAlign: "center",
               }}
             >
-              <Box sx={{ flexGrow: 0.2, width: "6.5%" }}>No.</Box>
+              <Box sx={{ flexGrow: 0.2, width: "4.5%" }}>No.</Box>
               <Box sx={{ flexGrow: 0.3, width: "14%" }}>Code</Box>
-              <Box sx={{ flexGrow: 1, width: "37.5%" }}>Description</Box>
-              <Box sx={{ flexGrow: 0.2, width: "14%" }}>QTY</Box>
-              <Box sx={{ flexGrow: 0.2, width: "14%" }}>Price</Box>
-              <Box sx={{ flexGrow: 0.2, width: "14%" }}>Total</Box>
+              <Box sx={{ flexGrow: 1, width: "50.5%" }}>Description</Box>
+              <Box sx={{ flexGrow: 0.2, width: "7%" }}>QTY</Box>
+              <Box sx={{ flexGrow: 0.2, width: "11%" }}>Price</Box>
+              <Box sx={{ flexGrow: 0.2, width: "13%" }}>Total</Box>
             </DialogContentText>
             <Divider />
             {selectedItem.partData.map((item, index) => {
@@ -213,28 +213,31 @@ export default function AddSN() {
                   {item.listItems.map((miniItem, miniIndex) => {
                     return (
                       <React.Fragment key={miniIndex}>
-                        <Box container sx={{ display: "flex", textAlign: "center", my: "10px" }}>
-                          <Box sx={{ flexGrow: 0.2, width: "6.5%" }}>
+                        <Box
+                          container
+                          sx={{ display: "flex", textAlign: "center", my: "10px", fontSize: 15 }}
+                        >
+                          <Box sx={{ flexGrow: 0.2, width: "4.5%" }}>
                             {miniIndex < 1 ? index + 1 : <></>}
                           </Box>
                           <Box sx={{ flexGrow: 0.3, width: "14%" }}>{miniItem.code}</Box>
-                          <Box sx={{ flexGrow: 1, width: "37.5%" }}>{miniItem.description}</Box>
-                          <Box sx={{ flexGrow: 0.2, width: "14%" }}>{miniItem.selectAmount}</Box>
-                          <Box sx={{ flexGrow: 0.2, width: "14%" }}>{miniItem.srp}</Box>
-                          <Box sx={{ flexGrow: 0.2, width: "14%" }}>
+                          <Box sx={{ flexGrow: 1, width: "50.5%" }}>{miniItem.description}</Box>
+                          <Box sx={{ flexGrow: 0.2, width: "7%" }}>{miniItem.selectAmount}</Box>
+                          <Box sx={{ flexGrow: 0.2, width: "11%" }}>{miniItem.srp}</Box>
+                          <Box sx={{ flexGrow: 0.2, width: "13%" }}>
                             {miniItem.srp * miniItem.selectAmount}
                           </Box>
                         </Box>
                         <Box
                           container
-                          sx={{ display: "flex", textAlign: "center", my: "10px", mx: "7vw" }}
+                          sx={{ display: "flex", textAlign: "center", my: "10px", ml: "5.5vw" }}
                         >
                           <TextField
                             size="small"
                             id="filled-basic"
                             label="S/N"
                             variant="filled"
-                            sx={{ zoom: "90%", width: "400px" }}
+                            sx={{ zoom: "85%", width: "450px" }}
                           />
                         </Box>
                         <Divider />
