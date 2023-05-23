@@ -61,7 +61,7 @@ export default function AddSN() {
             code: "ME1-000994",
             description: "KINGSTON FURY IMPACT 8GB (8X1/3200) DDR4 (KF432S20IB/8) NB",
             selectAmount: 2,
-            srp: 1150,
+            srp: 1000,
             promotionPrice: 950,
           },
           {
@@ -166,6 +166,8 @@ export default function AddSN() {
 
   const digitDisplay = custTelInput.length > 1 ? "Digits" : "Digit";
 
+  let totalPrice = 0;
+
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
@@ -210,6 +212,8 @@ export default function AddSN() {
               return (
                 <React.Fragment key={index}>
                   {item.listItems.map((miniItem, miniIndex) => {
+                    console.log("ได้ป่าววะ", miniItem.srp * miniItem.selectAmount);
+                    totalPrice += miniItem.srp * miniItem.selectAmount;
                     return (
                       <React.Fragment key={miniIndex}>
                         <Box
@@ -227,6 +231,8 @@ export default function AddSN() {
                             {miniItem.srp * miniItem.selectAmount}
                           </Box>
                         </Box>
+
+                        {/* S/N Part */}
                         <Box sx={{ overflow: "auto", maxHeight: "150px" }}>
                           {[...Array(miniItem.selectAmount)].map((item3, index3) => {
                             return (
@@ -259,6 +265,62 @@ export default function AddSN() {
                 </React.Fragment>
               );
             })}
+            <DialogContentText
+              container
+              sx={{
+                display: "flex",
+                fontSize: 16,
+                color: "#3d3d3d",
+                textAlign: "end",
+              }}
+            >
+              <Box sx={{ flexGrow: 0.2, width: "4.5%" }}></Box>
+              <Box sx={{ flexGrow: 0.3, width: "14%" }}></Box>
+              <Box sx={{ flexGrow: 1, width: "50.5%" }}></Box>
+              <Box sx={{ flexGrow: 0.2, width: "7%" }}></Box>
+              <Box sx={{ flexGrow: 0.2, width: "11%" }}>Price</Box>
+              <Box sx={{ flexGrow: 0.2, width: "13%" }}>
+                {(totalPrice - totalPrice * 0.07).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              </Box>
+            </DialogContentText>
+            <DialogContentText
+              container
+              sx={{
+                display: "flex",
+                fontSize: 16,
+                color: "#3d3d3d",
+                textAlign: "end",
+              }}
+            >
+              <Box sx={{ flexGrow: 0.2, width: "4.5%" }}></Box>
+              <Box sx={{ flexGrow: 0.3, width: "14%" }}></Box>
+              <Box sx={{ flexGrow: 1, width: "50.5%" }}></Box>
+              <Box sx={{ flexGrow: 0.2, width: "7%" }}></Box>
+              <Box sx={{ flexGrow: 0.2, width: "11%", minWidth: "fit-content" }}>
+                ภาษีมูลค่าเพิ่ม
+              </Box>
+              <Box sx={{ flexGrow: 0.2, width: "13%" }}>
+                {(totalPrice * 0.07).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              </Box>
+            </DialogContentText>
+            <DialogContentText
+              container
+              sx={{
+                display: "flex",
+                fontSize: 16,
+                color: "#3d3d3d",
+                textAlign: "end",
+              }}
+            >
+              <Box sx={{ flexGrow: 0.2, width: "4.5%" }}></Box>
+              <Box sx={{ flexGrow: 0.3, width: "14%" }}></Box>
+              <Box sx={{ flexGrow: 1, width: "50.5%" }}></Box>
+              <Box sx={{ flexGrow: 0.2, width: "7%" }}></Box>
+              <Box sx={{ flexGrow: 0.2, width: "11%", minWidth: "fit-content" }}>รวมสุทธิ</Box>
+              <Box sx={{ flexGrow: 0.2, width: "13%" }}>
+                {totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              </Box>
+            </DialogContentText>
           </DialogContent>
         </DialogContent>
 
