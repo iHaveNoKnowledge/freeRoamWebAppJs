@@ -92,21 +92,7 @@ export default function AddSN() {
   };
   ////onclick สำหรับกด save SPEC ////////////////////////////////////////////////////////////////////
   const handleSave = () => {
-    console.log("กด Save!!", buildedName);
-    setInputData((prev) => {
-      return {
-        ...prev,
-        buildedName: buildedNameInput,
-        customerName: custNameInput,
-        customerTel: custTelInput,
-        salerName: salerNameInput,
-      };
-    });
-
-    setBuildedNameInput("");
-    setSalerNameInput("");
-    setCustNameInput("");
-    setCustTelInput("");
+    console.log("กด Save!! S/N");
     handleClose();
   };
 
@@ -176,7 +162,7 @@ export default function AddSN() {
 
       <Dialog open={open} onClose={handleClose} maxWidth="none">
         {/* <DialogTitle>Subscribe</DialogTitle> */}
-        <DialogContent sx={{ width: "71vw" }}>
+        <DialogContent sx={{ width: "71vw", minWidth: "700px" }}>
           {/* <DialogContentText>Enter Your Build Name</DialogContentText> */}
           <DialogContentText
             sx={{ backgroundColor: "#414151", fontSize: 18, color: "#e6e6e6", px: "10px" }}
@@ -191,8 +177,7 @@ export default function AddSN() {
               flexDirection: "column",
             }}
           >
-            <DialogContentText
-              container
+            <Box
               sx={{
                 display: "flex",
                 fontSize: 16,
@@ -206,18 +191,17 @@ export default function AddSN() {
               <Box sx={{ flexGrow: 0.2, width: "7%" }}>QTY</Box>
               <Box sx={{ flexGrow: 0.2, width: "11%" }}>Price</Box>
               <Box sx={{ flexGrow: 0.2, width: "13%" }}>Total</Box>
-            </DialogContentText>
+            </Box>
             <Divider />
             {selectedItem.partData.map((item, index) => {
               return (
                 <React.Fragment key={index}>
                   {item.listItems.map((miniItem, miniIndex) => {
-                    console.log("ได้ป่าววะ", miniItem.srp * miniItem.selectAmount);
                     totalPrice += miniItem.srp * miniItem.selectAmount;
                     return (
                       <React.Fragment key={miniIndex}>
                         <Box
-                          container
+                          // container
                           sx={{ display: "flex", textAlign: "center", my: "10px", fontSize: 14 }}
                         >
                           <Box sx={{ flexGrow: 0.2, width: "4.5%" }}>
@@ -238,7 +222,7 @@ export default function AddSN() {
                             return (
                               <React.Fragment key={index3}>
                                 <Box
-                                  container
+                                  // container
                                   sx={{
                                     display: "flex",
                                     textAlign: "center",
@@ -265,62 +249,27 @@ export default function AddSN() {
                 </React.Fragment>
               );
             })}
-            <DialogContentText
-              container
-              sx={{
-                display: "flex",
-                fontSize: 16,
-                color: "#3d3d3d",
-                textAlign: "end",
-              }}
-            >
-              <Box sx={{ flexGrow: 0.2, width: "4.5%" }}></Box>
-              <Box sx={{ flexGrow: 0.3, width: "14%" }}></Box>
-              <Box sx={{ flexGrow: 1, width: "50.5%" }}></Box>
-              <Box sx={{ flexGrow: 0.2, width: "7%" }}></Box>
-              <Box sx={{ flexGrow: 0.2, width: "11%" }}>Price</Box>
-              <Box sx={{ flexGrow: 0.2, width: "13%" }}>
-                {(totalPrice - totalPrice * 0.07).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+
+            <Box sx={{ display: "flex", mt: "10px" }}>
+              <Box sx={{ flexGrow: 9.5, textAlign: "end", mr: "5px" }}>
+                <Box>รวมเงิน</Box>
+                <Box>ภาษีมูลค่าเพิ่ม</Box>
+                <Box>รวมทั้งสิ้น(รวมภาษี)</Box>
               </Box>
-            </DialogContentText>
-            <DialogContentText
-              container
-              sx={{
-                display: "flex",
-                fontSize: 16,
-                color: "#3d3d3d",
-                textAlign: "end",
-              }}
-            >
-              <Box sx={{ flexGrow: 0.2, width: "4.5%" }}></Box>
-              <Box sx={{ flexGrow: 0.3, width: "14%" }}></Box>
-              <Box sx={{ flexGrow: 1, width: "50.5%" }}></Box>
-              <Box sx={{ flexGrow: 0.2, width: "7%" }}></Box>
-              <Box sx={{ flexGrow: 0.2, width: "11%", minWidth: "fit-content" }}>
-                ภาษีมูลค่าเพิ่ม
+              <Box sx={{ flexGrow: 0.5, textAlign: "end" }}>
+                <Box sx={{ pt: "2px" }}>
+                  {(totalPrice - totalPrice * (7 / 107))
+                    .toFixed(2)
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </Box>
+                <Box sx={{ pt: "2px" }}>
+                  {(totalPrice * (7 / 107)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </Box>
+                <Box sx={{ pt: "2px" }}>
+                  {totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </Box>
               </Box>
-              <Box sx={{ flexGrow: 0.2, width: "13%" }}>
-                {(totalPrice * 0.07).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </Box>
-            </DialogContentText>
-            <DialogContentText
-              container
-              sx={{
-                display: "flex",
-                fontSize: 16,
-                color: "#3d3d3d",
-                textAlign: "end",
-              }}
-            >
-              <Box sx={{ flexGrow: 0.2, width: "4.5%" }}></Box>
-              <Box sx={{ flexGrow: 0.3, width: "14%" }}></Box>
-              <Box sx={{ flexGrow: 1, width: "50.5%" }}></Box>
-              <Box sx={{ flexGrow: 0.2, width: "7%" }}></Box>
-              <Box sx={{ flexGrow: 0.2, width: "11%", minWidth: "fit-content" }}>รวมสุทธิ</Box>
-              <Box sx={{ flexGrow: 0.2, width: "13%" }}>
-                {totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </Box>
-            </DialogContentText>
+            </Box>
           </DialogContent>
         </DialogContent>
 
