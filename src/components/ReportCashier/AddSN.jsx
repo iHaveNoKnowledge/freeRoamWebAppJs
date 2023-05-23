@@ -92,7 +92,7 @@ export default function AddSN() {
   };
   ////onclick สำหรับกด save SPEC ////////////////////////////////////////////////////////////////////
   const handleSave = () => {
-    console.log("กด Save!! S/N");
+    console.log("กด Save!! S/N", snRef.current.value);
     handleClose();
   };
 
@@ -153,6 +153,8 @@ export default function AddSN() {
   const digitDisplay = custTelInput.length > 1 ? "Digits" : "Digit";
 
   let totalPrice = 0;
+
+  const snRef = React.useRef();
 
   return (
     <div>
@@ -231,6 +233,7 @@ export default function AddSN() {
                                   }}
                                 >
                                   <TextField
+                                    ref={snRef}
                                     size="small"
                                     id="filled-basic"
                                     label="S/N"
