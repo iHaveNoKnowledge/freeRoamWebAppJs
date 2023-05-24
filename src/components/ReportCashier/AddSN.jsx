@@ -7,9 +7,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Divider, Input } from "@mui/material";
+import { Divider, FormControl, Input } from "@mui/material";
+import { useForm } from "react-hook-form";
 
 export default function AddSN() {
+  const { register, handleSubmit, setValue, watch } = useForm();
   const [open, setOpen] = React.useState(false);
   const [inputData, setInputData] = React.useState({
     buildedName: "",
@@ -90,71 +92,17 @@ export default function AddSN() {
   const handleClose = () => {
     setOpen(false);
   };
-  ////onclick สำหรับกด save SPEC ////////////////////////////////////////////////////////////////////
+  ////onclick สำหรับกด save  ////////////////////////////////////////////////////////////////////
   const handleSave = () => {
-    console.log("กด Save!! S/N", snRef.current.value);
+    console.log("กด Save!! S/N");
     handleClose();
   };
 
-  ////BuildedName Input ไม่ต้องมี valid
-  const [buildedNameInput, setBuildedNameInput] = React.useState("");
-  ////SalerName Input ไม่ต้องมี valid
-  const [salerNameInput, setSalerNameInput] = React.useState("");
-  ////CustName Input ไม่ต้องมี valid
-  const [custNameInput, setCustNameInput] = React.useState("");
-  ////Phone Num Input Validation///////////////////////////////
-  const [custTelInput, setCustTelInput] = React.useState("");
-  const [btnSwitch, setBtnSwitch] = React.useState(false);
-
-  const validate = (value) => {
-    const pattern9 = /^0[2,3,4,5,7]\d{7}$/;
-    const pattern10 = /^(06|08|09)\d{8}$/;
-    if (pattern9.test(value)) {
-      console.log("เบอร์บ้าน");
-      setBtnSwitch(true);
-    } else if (pattern10.test(value)) {
-      console.log("เบอร์มือถือ");
-      setBtnSwitch(true);
-    } else {
-      console.log("ไม่ใช่เบอร์ละ");
-      setBtnSwitch(false);
-    }
-
-    return "";
-  };
-
-  const handleChange = (e) => {
-    const value = e.target.value;
-    const patternInt = /^[0-9\b]+$/;
-    const dataValidation = patternInt.test(value);
-
-    if (e.target.id === "cusTelInput") {
-      console.log("แกกำลังกรอกเบอร์โทรศัพท์ ");
-      if (value === "" || dataValidation) {
-        setCustTelInput(value);
-        setInputData((prev) => {
-          return { ...prev, customerTel: value };
-        });
-      }
-    } else if (e.target.id === "custNameInput") {
-      console.log("แกกำลังกรอกชื่อลูกค้า");
-      setCustNameInput(value);
-    } else if (e.target.id === "salerNameInput") {
-      setSalerNameInput(value);
-    } else if (e.target.id === "buildedName") {
-      setBuildedNameInput(value);
-    }
-  };
-
-  React.useEffect(() => {
-    validate(custTelInput);
-  }, [custTelInput]);
-
-  const digitDisplay = custTelInput.length > 1 ? "Digits" : "Digit";
-
   let totalPrice = 0;
 
-  const snRef = React.useRef();
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   return (
     <div>
@@ -164,126 +112,127 @@ export default function AddSN() {
 
       <Dialog open={open} onClose={handleClose} maxWidth="none">
         {/* <DialogTitle>Subscribe</DialogTitle> */}
-        <DialogContent sx={{ width: "71vw", minWidth: "700px" }}>
-          {/* <DialogContentText>Enter Your Build Name</DialogContentText> */}
-          <DialogContentText
-            sx={{ backgroundColor: "#414151", fontSize: 18, color: "#e6e6e6", px: "10px" }}
-          >
-            Add S/N
-          </DialogContentText>
-          <DialogContent
-            sx={{
-              borderLeft: "10px solid #0033E6",
-              backgroundColor: "#4141",
-
-              flexDirection: "column",
-            }}
-          >
-            <Box
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DialogContent sx={{ width: "71vw", minWidth: "700px" }}>
+            {/* <DialogContentText>Enter Your Build Name</DialogContentText> */}
+            <DialogContentText
+              sx={{ backgroundColor: "#414151", fontSize: 18, color: "#e6e6e6", px: "10px" }}
+            >
+              Add S/N
+            </DialogContentText>
+            <DialogContent
               sx={{
-                display: "flex",
-                fontSize: 16,
-                color: "#3d3d3d",
-                textAlign: "center",
+                borderLeft: "10px solid #0033E6",
+                backgroundColor: "#4141",
+
+                flexDirection: "column",
               }}
             >
-              <Box sx={{ flexGrow: 0.2, width: "4.5%" }}>No.</Box>
-              <Box sx={{ flexGrow: 0.3, width: "14%" }}>Code</Box>
-              <Box sx={{ flexGrow: 1, width: "50.5%" }}>Description</Box>
-              <Box sx={{ flexGrow: 0.2, width: "7%" }}>QTY</Box>
-              <Box sx={{ flexGrow: 0.2, width: "11%" }}>Price</Box>
-              <Box sx={{ flexGrow: 0.2, width: "13%" }}>Total</Box>
-            </Box>
-            <Divider />
-            {selectedItem.partData.map((item, index) => {
-              return (
-                <React.Fragment key={index}>
-                  {item.listItems.map((miniItem, miniIndex) => {
-                    totalPrice += miniItem.srp * miniItem.selectAmount;
-                    return (
-                      <React.Fragment key={miniIndex}>
-                        <Box
-                          // container
-                          sx={{ display: "flex", textAlign: "center", my: "10px", fontSize: 14 }}
-                        >
-                          <Box sx={{ flexGrow: 0.2, width: "4.5%" }}>
-                            {miniIndex < 1 ? index + 1 : <></>}
-                          </Box>
-                          <Box sx={{ flexGrow: 0.3, width: "14%" }}>{miniItem.code}</Box>
-                          <Box sx={{ flexGrow: 1, width: "50.5%" }}>{miniItem.description}</Box>
-                          <Box sx={{ flexGrow: 0.2, width: "7%" }}>{miniItem.selectAmount}</Box>
-                          <Box sx={{ flexGrow: 0.2, width: "11%" }}>{miniItem.srp}</Box>
-                          <Box sx={{ flexGrow: 0.2, width: "13%" }}>
-                            {miniItem.srp * miniItem.selectAmount}
-                          </Box>
-                        </Box>
-
-                        {/* S/N Part */}
-                        <Box sx={{ overflow: "auto", maxHeight: "150px" }}>
-                          {[...Array(miniItem.selectAmount)].map((item3, index3) => {
-                            return (
-                              <React.Fragment key={index3}>
-                                <Box
-                                  // container
-                                  sx={{
-                                    display: "flex",
-                                    textAlign: "center",
-                                    my: "4.5px",
-                                    ml: "5.5vw",
-                                  }}
-                                >
-                                  <TextField
-                                    ref={snRef}
-                                    size="small"
-                                    id="filled-basic"
-                                    label="S/N"
-                                    variant="filled"
-                                    sx={{ zoom: "80%", width: "450px" }}
-                                  />
-                                </Box>
-                              </React.Fragment>
-                            );
-                          })}
-                        </Box>
-                        <Divider />
-                      </React.Fragment>
-                    );
-                  })}
-                </React.Fragment>
-              );
-            })}
-
-            <Box sx={{ display: "flex", mt: "10px" }}>
-              <Box sx={{ flexGrow: 9.5, textAlign: "end", mr: "5px" }}>
-                <Box>รวมเงิน</Box>
-                <Box>ภาษีมูลค่าเพิ่ม</Box>
-                <Box>รวมทั้งสิ้น(รวมภาษี)</Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  fontSize: 16,
+                  color: "#3d3d3d",
+                  textAlign: "center",
+                }}
+              >
+                <Box sx={{ flexGrow: 0.2, width: "4.5%" }}>No.</Box>
+                <Box sx={{ flexGrow: 0.3, width: "14%" }}>Code</Box>
+                <Box sx={{ flexGrow: 1, width: "50.5%" }}>Description</Box>
+                <Box sx={{ flexGrow: 0.2, width: "7%" }}>QTY</Box>
+                <Box sx={{ flexGrow: 0.2, width: "11%" }}>Price</Box>
+                <Box sx={{ flexGrow: 0.2, width: "13%" }}>Total</Box>
               </Box>
-              <Box sx={{ flexGrow: 0.5, textAlign: "end" }}>
-                <Box sx={{ pt: "2px" }}>
-                  {(totalPrice - totalPrice * (7 / 107))
-                    .toFixed(2)
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              <Divider />
+              {selectedItem.partData.map((item, index) => {
+                return (
+                  <React.Fragment key={index}>
+                    {item.listItems.map((miniItem, miniIndex) => {
+                      totalPrice += miniItem.srp * miniItem.selectAmount;
+                      return (
+                        <React.Fragment key={miniIndex}>
+                          <Box
+                            // container
+                            sx={{ display: "flex", textAlign: "center", my: "10px", fontSize: 14 }}
+                          >
+                            <Box sx={{ flexGrow: 0.2, width: "4.5%" }}>
+                              {miniIndex < 1 ? index + 1 : <></>}
+                            </Box>
+                            <Box sx={{ flexGrow: 0.3, width: "14%" }}>{miniItem.code}</Box>
+                            <Box sx={{ flexGrow: 1, width: "50.5%" }}>{miniItem.description}</Box>
+                            <Box sx={{ flexGrow: 0.2, width: "7%" }}>{miniItem.selectAmount}</Box>
+                            <Box sx={{ flexGrow: 0.2, width: "11%" }}>{miniItem.srp}</Box>
+                            <Box sx={{ flexGrow: 0.2, width: "13%" }}>
+                              {miniItem.srp * miniItem.selectAmount}
+                            </Box>
+                          </Box>
+
+                          {/* S/N Part */}
+                          <Box sx={{ overflow: "auto", maxHeight: "150px" }}>
+                            {[...Array(miniItem.selectAmount)].map((_, index3) => {
+                              return (
+                                <React.Fragment key={index3}>
+                                  <Box
+                                    // container
+                                    sx={{
+                                      display: "flex",
+                                      textAlign: "center",
+                                      my: "4.5px",
+                                      ml: "5.5vw",
+                                    }}
+                                  >
+                                    <TextField
+                                      size="small"
+                                      id="filled-basic"
+                                      label="S/N"
+                                      variant="filled"
+                                      sx={{ zoom: "80%", width: "450px" }}
+                                      {...register(`Type${index}Item${miniIndex}SN${index3}`)}
+                                    />
+                                  </Box>
+                                </React.Fragment>
+                              );
+                            })}
+                          </Box>
+                          <Divider />
+                        </React.Fragment>
+                      );
+                    })}
+                  </React.Fragment>
+                );
+              })}
+
+              <Box sx={{ display: "flex", mt: "10px" }}>
+                <Box sx={{ flexGrow: 9.5, textAlign: "end", mr: "5px" }}>
+                  <Box>รวมเงิน</Box>
+                  <Box>ภาษีมูลค่าเพิ่ม</Box>
+                  <Box>รวมทั้งสิ้น(รวมภาษี)</Box>
                 </Box>
-                <Box sx={{ pt: "2px" }}>
-                  {(totalPrice * (7 / 107)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                </Box>
-                <Box sx={{ pt: "2px" }}>
-                  {totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                <Box sx={{ flexGrow: 0.5, textAlign: "end" }}>
+                  <Box sx={{ pt: "2px" }}>
+                    {(totalPrice - totalPrice * (7 / 107))
+                      .toFixed(2)
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Box>
+                  <Box sx={{ pt: "2px" }}>
+                    {(totalPrice * (7 / 107)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Box>
+                  <Box sx={{ pt: "2px" }}>
+                    {totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Box>
                 </Box>
               </Box>
-            </Box>
+            </DialogContent>
           </DialogContent>
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleClose} variant="contained" color="error">
-            Cancel
-          </Button>
-          <Button onClick={handleSave} variant="contained" color="success">
-            Save
-          </Button>
-        </DialogActions>
+          <DialogActions>
+            <Button onClick={handleClose} variant="contained" color="error">
+              Cancel
+            </Button>
+            <Button onClick={handleSave} variant="contained" color="success" type="submit">
+              Save
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </div>
   );
