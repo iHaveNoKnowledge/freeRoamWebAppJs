@@ -62,7 +62,7 @@ export default function AddSN() {
             id: "21",
             code: "ME1-000994",
             description: "KINGSTON FURY IMPACT 8GB (8X1/3200) DDR4 (KF432S20IB/8) NB",
-            selectAmount: 2,
+            selectAmount: 3,
             srp: 1000,
             promotionPrice: 950,
           },
@@ -82,10 +82,6 @@ export default function AddSN() {
   ////onclick เปิด Form ////////////////////////////////////////////////////////////////////
   const handleClickOpen = () => {
     setOpen(true);
-    ///ล้างค่า สำหรับทดสอบ
-    setInputData((prev) => {
-      return { ...prev, buildedName: "", customerName: "", customerTel: "", salerName: "" };
-    });
   };
 
   ////onclick ปิด Form ////////////////////////////////////////////////////////////////////
@@ -100,8 +96,28 @@ export default function AddSN() {
 
   let totalPrice = 0;
 
-  const onSubmit = (data) => {
-    console.log(data);
+  ////////ทำตัวแปรสำหรับเก็บค่าเพื่อออกเอกสาร/////////////////////////////// itemList
+  let itemList = [];
+
+  selectedItem.partData.map((item1) => {
+    item1.listItems.map((item2) => {
+      itemList = [...itemList, item2];
+    });
+  });
+
+  itemList.forEach((item) => {
+    const times = item.selectAmount;
+    item.sn = Array(times).fill("");
+  });
+
+  ////ก่อนออกหน้ากระดาษ
+  let updatedItemsList;
+  const onSubmit = () => {
+    updatedItemsList = itemList.map((item1, index1) => {
+      const updatedSN = item1.sn.map((sn, snIndex) => watch(`Item${index1}SN${snIndex}`));
+      return { ...item1, sn: updatedSN };
+    });
+    console.log("ผลลัพธ์", updatedItemsList);
   };
 
   return (
@@ -144,64 +160,56 @@ export default function AddSN() {
                 <Box sx={{ flexGrow: 0.2, width: "13%" }}>Total</Box>
               </Box>
               <Divider />
-              {selectedItem.partData.map((item, index) => {
+
+              {itemList.map((item, index) => {
+                totalPrice += item.srp * item.selectAmount;
                 return (
                   <React.Fragment key={index}>
-                    {item.listItems.map((miniItem, miniIndex) => {
-                      totalPrice += miniItem.srp * miniItem.selectAmount;
-                      return (
-                        <React.Fragment key={miniIndex}>
-                          <Box
-                            // container
-                            sx={{ display: "flex", textAlign: "center", my: "10px", fontSize: 14 }}
-                          >
-                            <Box sx={{ flexGrow: 0.2, width: "4.5%" }}>
-                              {miniIndex < 1 ? index + 1 : <></>}
-                            </Box>
-                            <Box sx={{ flexGrow: 0.3, width: "14%" }}>{miniItem.code}</Box>
-                            <Box sx={{ flexGrow: 1, width: "50.5%" }}>{miniItem.description}</Box>
-                            <Box sx={{ flexGrow: 0.2, width: "7%" }}>{miniItem.selectAmount}</Box>
-                            <Box sx={{ flexGrow: 0.2, width: "11%" }}>{miniItem.srp}</Box>
-                            <Box sx={{ flexGrow: 0.2, width: "13%" }}>
-                              {miniItem.srp * miniItem.selectAmount}
-                            </Box>
-                          </Box>
+                    <Box
+                      // container
+                      sx={{ display: "flex", textAlign: "center", my: "10px", fontSize: 14 }}
+                    >
+                      <Box sx={{ flexGrow: 0.2, width: "4.5%" }}>{index + 1}</Box>
+                      <Box sx={{ flexGrow: 0.3, width: "14%" }}>{item.code}</Box>
+                      <Box sx={{ flexGrow: 1, width: "50.5%" }}>{item.description}</Box>
+                      <Box sx={{ flexGrow: 0.2, width: "7%" }}>{item.selectAmount}</Box>
+                      <Box sx={{ flexGrow: 0.2, width: "11%" }}>{item.srp}</Box>
+                      <Box sx={{ flexGrow: 0.2, width: "13%" }}>{item.srp * item.selectAmount}</Box>
+                    </Box>
 
-                          {/* S/N Part */}
-                          <Box sx={{ overflow: "auto", maxHeight: "150px" }}>
-                            {[...Array(miniItem.selectAmount)].map((_, index3) => {
-                              return (
-                                <React.Fragment key={index3}>
-                                  <Box
-                                    // container
-                                    sx={{
-                                      display: "flex",
-                                      textAlign: "center",
-                                      my: "4.5px",
-                                      ml: "5.5vw",
-                                    }}
-                                  >
-                                    <TextField
-                                      size="small"
-                                      id="filled-basic"
-                                      label="S/N"
-                                      variant="filled"
-                                      sx={{ zoom: "80%", width: "450px" }}
-                                      {...register(`Type${index}Item${miniIndex}SN${index3}`)}
-                                    />
-                                  </Box>
-                                </React.Fragment>
-                              );
-                            })}
-                          </Box>
-                          <Divider />
-                        </React.Fragment>
-                      );
-                    })}
+                    {/* S/N Part */}
+                    <Box sx={{ overflow: "auto", maxHeight: "150px" }}>
+                      {[...Array(item.selectAmount)].map((_, index3) => {
+                        return (
+                          <React.Fragment key={index3}>
+                            <Box
+                              // container
+                              sx={{
+                                display: "flex",
+                                textAlign: "center",
+                                my: "4.5px",
+                                ml: "5.5vw",
+                              }}
+                            >
+                              <TextField
+                                size="small"
+                                id="filled-basic"
+                                label="S/N"
+                                variant="filled"
+                                sx={{ zoom: "80%", width: "450px" }}
+                                {...register(`Item${index}SN${index3}`)}
+                              />
+                            </Box>
+                          </React.Fragment>
+                        );
+                      })}
+                    </Box>
+                    <Divider />
                   </React.Fragment>
                 );
               })}
 
+              {/* ท้ายตารางสรุปรวมยอด */}
               <Box sx={{ display: "flex", mt: "10px" }}>
                 <Box sx={{ flexGrow: 9.5, textAlign: "end", mr: "5px" }}>
                   <Box>รวมเงิน</Box>
@@ -224,6 +232,7 @@ export default function AddSN() {
               </Box>
             </DialogContent>
           </DialogContent>
+          {/* ปุ่มด้านล่างสุดนอกตาราง */}
           <DialogActions>
             <Button onClick={handleClose} variant="contained" color="error">
               Cancel
