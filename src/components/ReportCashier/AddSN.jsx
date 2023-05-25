@@ -1,17 +1,27 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  Dialog,
+  IconButton,
+  Typography,
+  Slide,
+  Box,
+  Divider,
+} from "@mui/material";
 import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Divider, FormControl, Input } from "@mui/material";
 import { useForm } from "react-hook-form";
+import TableDocumentCashier from "./TableDocumentCashier";
+import { PDFViewer } from "@react-pdf/renderer";
+import CloseIcon from "@mui/icons-material/Close";
 
-export default function AddSN() {
-  const { register, handleSubmit, setValue, watch } = useForm();
+const AddSN = () => {
+  const { register, handleSubmit, setValue, watch, reset } = useForm();
   const [open, setOpen] = React.useState(false);
   const [inputData, setInputData] = React.useState({
     buildedName: "",
@@ -111,13 +121,56 @@ export default function AddSN() {
   });
 
   ////ก่อนออกหน้ากระดาษ
-  let updatedItemsList;
+  // let updatedItemsList;
+  // const onSubmit = () => {
+  //   updatedItemsList = itemList.map((item1, index1) => {
+  //     const updatedSN = item1.sn.map((sn, snIndex) => watch(`Item${index1}SN${snIndex}`));
+  //     return { ...item1, sn: updatedSN };
+  //   });
+  //   console.log("ผลลัพธ์", updatedItemsList);
+  //   reset();
+  //   console.log();
+  // };
+
   const onSubmit = () => {
-    updatedItemsList = itemList.map((item1, index1) => {
+    itemList = itemList.map((item1, index1) => {
       const updatedSN = item1.sn.map((sn, snIndex) => watch(`Item${index1}SN${snIndex}`));
       return { ...item1, sn: updatedSN };
     });
-    console.log("ผลลัพธ์", updatedItemsList);
+    console.log("ผลลัพธ์", itemList);
+
+    console.log();
+  };
+
+  const handleChange = (event, index, index2) => {
+    const value = event.target.value;
+    setValue(`Item${index}SN${index2}`, value);
+  };
+
+  ////EnterNewLine
+  const textFieldsRef = React.useRef([]);
+
+  const handleKeyDown = (event, currentIndex, parentIndex, item2) => {
+    console.log("item2คือไร", item2);
+    if (event.key === "Enter") {
+      event.preventDefault();
+      const nextIndex = currentIndex + 1;
+      if (nextIndex < textFieldsRef.current[parentIndex].length) {
+        textFieldsRef.current[parentIndex][nextIndex].focus();
+      } else {
+        const nextParentIndex = parentIndex + 1;
+        if (nextParentIndex < textFieldsRef.current.length) {
+          textFieldsRef.current[nextParentIndex][0].focus();
+        }
+      }
+    }
+  };
+
+  const handleTextFieldRef = (textField, index, parentIndex) => {
+    if (!textFieldsRef.current[parentIndex]) {
+      textFieldsRef.current[parentIndex] = [];
+    }
+    textFieldsRef.current[parentIndex][index] = textField;
   };
 
   return (
@@ -174,14 +227,16 @@ export default function AddSN() {
                       <Box sx={{ flexGrow: 1, width: "50.5%" }}>{item.description}</Box>
                       <Box sx={{ flexGrow: 0.2, width: "7%" }}>{item.selectAmount}</Box>
                       <Box sx={{ flexGrow: 0.2, width: "11%" }}>{item.srp}</Box>
-                      <Box sx={{ flexGrow: 0.2, width: "13%" }}>{item.srp * item.selectAmount}</Box>
+                      <Box sx={{ flexGrow: 0.2, width: "13%" }}>
+                        {item.srp * item.selectAmount} {item.sn}
+                      </Box>
                     </Box>
 
                     {/* S/N Part */}
                     <Box sx={{ overflow: "auto", maxHeight: "150px" }}>
-                      {[...Array(item.selectAmount)].map((_, index3) => {
+                      {item.sn.map((item2, index2) => {
                         return (
-                          <React.Fragment key={index3}>
+                          <React.Fragment key={index2}>
                             <Box
                               // container
                               sx={{
@@ -189,6 +244,7 @@ export default function AddSN() {
                                 textAlign: "center",
                                 my: "4.5px",
                                 ml: "5.5vw",
+                                backgroundColor: "pink",
                               }}
                             >
                               <TextField
@@ -197,8 +253,14 @@ export default function AddSN() {
                                 label="S/N"
                                 variant="filled"
                                 sx={{ zoom: "80%", width: "450px" }}
-                                {...register(`Item${index}SN${index3}`)}
+                                onKeyDown={(event) => handleKeyDown(event, index2, index, item2)}
+                                inputRef={(textField) =>
+                                  handleTextFieldRef(textField, index2, index)
+                                }
+                                {...register(`Item${index}SN${index2}`)}
+                                onChange={(event) => handleChange(event, index, index2)}
                               />
+                              <Box>{item2}</Box>
                             </Box>
                           </React.Fragment>
                         );
@@ -240,9 +302,12 @@ export default function AddSN() {
             <Button onClick={handleSave} variant="contained" color="success" type="submit">
               Save
             </Button>
+            <TableDocumentCashier />
           </DialogActions>
         </form>
       </Dialog>
     </div>
   );
-}
+};
+
+export default AddSN;
